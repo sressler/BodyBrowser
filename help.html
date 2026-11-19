@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CAESAR™ Scan Browser — Help</title>
+<style>
+html,body{margin:0;background:#1b1d22;color:#d7dbe3;font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:28px 24px 80px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-bottom:1px solid #2c3038;padding-bottom:12px;margin-bottom:8px}
+h1{font-size:26px;margin:0;color:#fff}
+h2{font-size:19px;color:#fff;margin:34px 0 8px;padding-top:6px;border-top:1px solid #2c3038}
+h3{font-size:15px;color:#cfd8ff;margin:20px 0 4px}
+a{color:#8fa8ff}
+.back{font-size:14px;white-space:nowrap}
+nav{columns:2;column-gap:28px;font-size:14px;margin:14px 0 4px;padding:12px 16px;background:#15171b;border:1px solid #2c3038;border-radius:8px}
+nav a{display:block;text-decoration:none;padding:1px 0}
+code,kbd{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;background:#262a32;border:1px solid #343944;border-radius:4px;padding:0 5px}
+kbd{border-bottom-width:2px}
+.btn{display:inline-block;font-size:13px;background:#333843;border:1px solid #4a505c;border-radius:5px;padding:0 7px;color:#e4e7ee;white-space:nowrap}
+.btn.p{background:#4f7cff;border-color:#4f7cff;color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid #2c3038;vertical-align:top}
+th{color:#fff;font-weight:600;background:#15171b}
+.note{background:#1f2430;border-left:3px solid #8fa8ff;padding:8px 12px;border-radius:0 6px 6px 0;margin:10px 0;font-size:14px}
+.warn{border-left-color:#e8862a}
+ul{padding-left:22px}li{margin:3px 0}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.tag{font-size:11px;font-weight:700;padding:0 5px;border-radius:3px;color:#fff}
+@media (max-width:640px){nav{columns:1}}
+</style></head>
+<body><div class="wrap">
+<header><h1>CAESAR™ Scan Browser — Help</h1><a class="back" href="index.html">← Back to the browser</a></header>
+<p>The browser displays 3D body scans from the CAESAR anthropometric survey (US, Italy and Netherlands), with their anatomical landmarks and measurements. It reads scans straight from your disk: nothing is uploaded.</p>
+
+<nav>
+<a href="#start">1. Getting started</a>
+<a href="#list">2. The file list</a>
+<a href="#single">3. Single mode</a>
+<a href="#multi">4. Multi mode</a>
+<a href="#compare">5. Compare mode</a>
+<a href="#view">6. Moving around and display options</a>
+<a href="#landmarks">7. Landmarks</a>
+<a href="#tape">7a. Tape measures and definitions</a>
+<a href="#filters">8. Measurement and sex filters</a>
+<a href="#keys">9. Keyboard and mouse summary</a>
+<a href="#data">10. About the data</a>
+<a href="#limits">11. Limits and troubleshooting</a>
+</nav>
+
+<h2 id="start">1. Getting started</h2>
+<p><b>When the page opens</b> it loads the built-in sample set (60 scans) into <b>Multi</b> mode with the <b>Cube</b> layout and fog turned on. The bodies appear one after another as they download. Use <span class="btn">Clear scene</span> and <span class="btn">Clear</span> to start fresh with your own folders.</p>
+<ol>
+<li>Click <span class="btn p">Add folder…</span> and choose a folder from <code>CAESARall/data</code>, for example <code>a2</code>.</li>
+<li>The browser finds every scan inside it: <code>scans/*.ply.gz</code> (original scanner files), <code>gltf/*.glb</code> (converted files), and the matching <code>landmarks/*.lnd</code> files.</li>
+<li>The first scan is displayed automatically. Click any other entry in the list to display it.</li>
+</ol>
+<p>Folders add up: choose <code>a2</code>, then <code>b2</code>, then <code>a2/gltf</code>, and all of them appear in one list. <span class="btn">Add files…</span> adds individual files, and you can also drag files onto the 3D view. <span class="btn">Clear</span> empties the list and removes every body from the scene.</p>
+<div class="note"><b>No scans on this computer?</b> Click <span class="btn">Load sample set</span> (or the link in the empty view). It loads 60 scans stored with this page: 30 people (15 men and 15 women spread from the shortest to the tallest in the sample), each with a standing (<i>a</i>) and a matching seated (<i>b</i>) scan, which suit Compare mode. These are compressed GLBs (about 1.3 MB each instead of 8 MB) with colors and landmarks kept; positions are stored to about 0.1 mm. The sample set adds to the list like a folder does.</div>
+<div class="note"><b>Which folder to pick?</b> <code>a</code> folders hold standing scans, <code>b</code> seated, <code>c</code> a second seated pose. Picking a folder's parent (e.g. <code>a2</code>) gives you both its PLY and GLB files; picking <code>a2/gltf</code> gives just the GLBs. A browser can only read inside the folder you pick, so files in parent folders are not seen. The measurement data is built in, so you don't need them.</div>
+
+<h2 id="list">2. The file list</h2>
+<ul>
+<li>Each entry shows the scan name, a <span class="tag" style="background:#3a3f4a">PLY</span> or <span class="tag" style="background:#6a4fd8">GLB</span> tag, the subject's sex (M/F) and measurement values, and the file size.</li>
+<li>A <span class="dot" style="background:#6dff8a"></span> green dot on a PLY entry means a matching landmark file was found. GLB files carry their landmarks inside.</li>
+<li><b>Show: All / PLY / GLB</b> limits the list to one file type.</li>
+<li>The <b>Filter</b> box matches part of the name, e.g. <code>030</code> or <code>nl_</code>.</li>
+<li>The measurement and sex filters (section 8) also narrow the list.</li>
+<li><span class="btn">Download 1st selected</span> (below the Show buttons) saves the first selected scan in the list: the one shown in Single mode, the first body in the scene in Multi mode, or the first of A/B in Compare mode. In the Claude artifact viewer the file arrives inside a .zip; on the hosted website it downloads as is.</li>
+<li><b>Shift-click</b> (Multi mode): click one scan, then shift-click another to add every scan between them, as in the Finder. To remove a range, click a scan that is in the scene (which removes it), then shift-click another: every scan between them is removed.</li>
+</ul>
+
+<h2 id="single">3. Single mode</h2>
+<p>One body at a time. Click a list entry, or use <span class="btn">◀ Prev</span> <span class="btn">Next ▶</span> or <kbd>↑</kbd> <kbd>↓</kbd> to step through the list. The header shows vertex and triangle counts, the scan height, the subject's sex and the values of the three selected measurements.</p>
+
+<h2 id="multi">4. Multi mode</h2>
+<p>Many bodies at once (up to 200). Clicking a list entry <b>adds</b> that body to the scene; clicking it again <b>removes</b> it. Bodies in the scene are highlighted in the list. Every body is turned to face the front, using its landmarks, and has a name tag underneath.</p>
+<table>
+<tr><th>Layout</th><th>Arrangement</th></tr>
+<tr><td><span class="btn">Wall</span></td><td>A grid of rows stacked upward and columns side by side, starting top-left. The number of columns follows the window's shape.</td></tr>
+<tr><td><span class="btn">Cube</span></td><td>A 3D lattice with equal spacing in all three directions (27 bodies → 3×3×3). The camera starts at a three-quarter view from above. Fly inside with WASD. <b>Cube outline: On / Off</b> shows or hides a gray wireframe of the cube the bodies sit in. Fog helps show depth here.</td></tr>
+<tr><td><span class="btn">Line</span></td><td>One horizontal row. Each body gets exactly its own width plus a 15 cm gap, so neighbors never touch.</td></tr>
+</table>
+<ul>
+<li><span class="btn">Add all shown</span> adds every scan currently in the list (after filters). Use the filters first to choose a group.</li>
+<li><span class="btn">Clear scene</span> removes all bodies but keeps the list.</li>
+<li>Bodies that stop passing a filter are hidden, and the layout closes up the gaps.</li>
+</ul>
+
+<h2 id="compare">5. Compare mode</h2>
+<p>Two bodies, <span class="tag" style="background:#3d7bff">A</span> and <span class="tag" style="background:#e8862a">B</span>, for side-by-side or overlaid comparison.</p>
+<ul>
+<li><b>Choosing bodies:</b> the highlighted slot receives the next scan you click in the list. After A is filled, B is highlighted automatically. Press <span class="btn">Pick</span> on a slot to replace just that one. Clicking a scan that is already in a slot removes it.</li>
+<li><b>Opacity</b> (per body) makes it translucent so the other shows through. The defaults are A 100%, B 60%.</li>
+<li><b>Tint</b> (per body) colors it blue (A) or orange (B) so overlapping surfaces are easy to tell apart.</li>
+<li><b>Separation</b> slider: the distance between the two bodies' centers. At 0 cm they overlap completely; dragging moves A left and B right.</li>
+<li><span class="btn">Superimposed</span> jumps to 0 cm. <span class="btn">Side by side</span> jumps to the distance where their nearest edges are 15 cm apart.</li>
+<li>The header shows both scan heights, the value of the first checked measurement (stature if none), and the difference B − A.</li>
+</ul>
+
+<h2 id="view">6. Moving around and display options</h2>
+<h3>Mouse</h3>
+<ul><li>Drag to rotate · scroll to zoom · right-drag (or two-finger drag) to pan.</li></ul>
+<h3>Keyboard flying</h3>
+<p><kbd>W</kbd>/<kbd>S</kbd> forward and back · <kbd>A</kbd>/<kbd>D</kbd> left and right · <kbd>E</kbd>/<kbd>Q</kbd> up and down · hold <kbd>Shift</kbd> for 3× speed. The rotation point moves with you, so after flying somewhere the mouse rotates around your new position. Speed scales with the size of the scene.</p>
+<h3>Panel buttons</h3>
+<table>
+<tr><td><span class="btn">Scan color</span> <span class="btn">Shaded</span> <span class="btn">Wire</span></td><td>Show the scanner's own color, plain gray shading, or the triangle mesh.</td></tr>
+<tr><td><span class="btn">Front</span> <span class="btn">Side</span> <span class="btn">Back</span> <span class="btn">Top</span></td><td>Standard views, lined up with the direction the body faces.</td></tr>
+<tr><td><span class="btn">Auto-rotate</span></td><td>Slowly spin the view.</td></tr>
+<tr><td><span class="btn">Fit all</span></td><td>Reframe the camera on everything in the scene.</td></tr>
+<tr><td><span class="btn">Fog</span> + slider</td><td>Fade farther bodies into the background (distance fog). The slider sets the strength; the fog follows the camera, so whatever is nearest stays clear.</td></tr>
+<tr><td><span class="btn">Names</span></td><td>Show or hide the file-name tags under the bodies (Multi and Compare).</td></tr>
+<tr><td><span class="btn">–</span> / <span class="btn">+</span></td><td>Collapse or expand the control panel.</td></tr>
+</table>
+
+<h2 id="landmarks">7. Landmarks</h2>
+<p>Landmarks are the anatomical points marked on each scan (about 73 for standing scans), drawn as small spheres colored by body region:</p>
+<p><span class="dot" style="background:#ffd23f"></span>Head &amp; neck &nbsp; <span class="dot" style="background:#4fd1ff"></span>Torso &nbsp; <span class="dot" style="background:#6dff8a"></span>Arms &amp; hands &nbsp; <span class="dot" style="background:#ff6bd6"></span>Legs &amp; feet &nbsp; <span class="dot" style="background:#ff4040"></span>Crotch (a computed point between the legs, not on the surface)</p>
+<ul>
+<li><b>Hover</b> over a sphere to see its number and name.</li>
+<li><b>Click</b> a sphere to pin a label that stays on screen and follows it as you move. Click it again to remove the label. Pinned landmarks are drawn larger.</li>
+<li>Pins go by landmark number, so pinning "11. Suprasternale" labels it on <i>every</i> body in the scene, and the pins stay when you switch scans.</li>
+<li>A pinned label is dimmed when its point is on the far side of a body (only with 12 or fewer bodies, to keep things fast).</li>
+<li><span class="btn">Show</span> hides or shows all spheres. <span class="btn">X-ray</span> draws them through the body. <span class="btn">Clear labels</span> removes all pins. The <b>size</b> slider changes the sphere size.</li>
+</ul>
+
+<h2 id="tape">7a. Tape measures and definitions</h2>
+<p>Pick up to two measurements from the <b>Tape measures</b> menus in the left panel, above the measurement filters. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the <i>CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions</i> (Air Force Research Laboratory, 2002):</p>
+<ul>
+<li><b>Circumferences</b> wrap around the scan the way a tape does, bridging hollows (chest at the bust points, waist at the preferred-waist landmark, hip at the table's maximum-hip height, neck base, armscye, thigh, ankle, head, hand, vertical trunk).</li>
+<li><b>Surface lengths</b> run over the body between landmarks (arm lengths, total crotch length, waist front length).</li>
+<li><b>Breadths and short lengths</b> are shown as a caliper (shoulder, head, bizygomatic, foot, hand, face).</li>
+<li><b>Heights</b> stand beside the body from the floor, or from the seat on seated scans, with the table value as the tape length.</li>
+</ul>
+<p>The readout and labels give the table value (measured by hand) and, where the scan allows, the length of the tape on the scan. They differ because the scan posture is not the measuring posture (for example, arm lengths were taken with the arm bent and the fist on the hip). Seated measures appear only on seated (b/c) scans and standing measures only on standing (a) scans. Weight, skinfolds and thumb-tip reach are not drawn.</p>
+<p>In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Labels on the bodies are shown only when there are 12 or fewer.</p>
+<p>A card at the bottom right shows the report's description, method, instrument, ISO 7250 reference and line drawing for the chosen measurement, with its page number. With two tapes on, tabs switch between them. Use <span class="btn">–</span> on the card to fold it.</p>
+
+<h2 id="filters">8. Measurement and sex filters</h2>
+<h3>Sex</h3>
+<p><b>All / Male / Female</b> radio buttons.</p>
+<h3>Three measurement filters</h3>
+<p>Each slot has a checkbox (on/off), a dropdown of the 45 traditional measurements, and <b>Min</b>/<b>Max</b> sliders showing inches and cm (pounds and kg for weight). Choosing a measurement resets its sliders to that measure's full range. The defaults are Stature, Weight and Chest Circumference.</p>
+<ul>
+<li>A body must pass <b>every</b> checked filter and the sex filter to be listed or shown.</li>
+<li>Scans missing a value for a checked measurement are hidden; the count line says how many.</li>
+<li>List entries show the values of the checked measurements (stature when none is checked).</li>
+</ul>
+<details><summary>The 45 measurements</summary>
+<p>Heights: stature, crotch, knee, waist (preferred), hip-max; sitting height, eye, acromial and elbow height sitting. Lengths: arm (spine–wrist, shoulder–wrist, shoulder–elbow), spine–shoulder, spine–elbow, buttock–knee, waist front, total crotch, foot, hand; thumb-tip reach and three trials. Breadths: shoulder, hip sitting, head, bizygomatic. Circumferences: chest, under-bust, chest girth at scye, armscye, waist, hip max, thigh, thigh max sitting, neck base, ankle, hand, head, vertical trunk. Also head length, face length, subscapular and triceps skinfolds, and weight.</p></details>
+<div class="note">The measurement and sex data for all 4,459 subjects (all a, b and c folders) is built into the page, so filters work whichever folder you pick. If you add a folder containing a <code>MeasurementsEnglish</code> file, its values replace the built-in ones. Seated (b) and second-seated (c) scans use the same subject's measurements. Under-bust circumference is blank for most men.</div>
+
+<h2 id="keys">9. Keyboard and mouse summary</h2>
+<table>
+<tr><th>Input</th><th>Action</th></tr>
+<tr><td>Drag · scroll · right-drag</td><td>Rotate · zoom · pan</td></tr>
+<tr><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> · <kbd>Q</kbd><kbd>E</kbd> · <kbd>Shift</kbd></td><td>Fly · down/up · faster</td></tr>
+<tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Previous / next scan (Single mode)</td></tr>
+<tr><td>Click list entry</td><td>Show (Single) · add/remove (Multi) · put in A or B (Compare)</td></tr>
+<tr><td><kbd>Shift</kbd>-click list entry</td><td>Add or remove the whole range, following the first-clicked scan (Multi)</td></tr>
+<tr><td>Hover / click landmark</td><td>Show name / pin or unpin its label on every body</td></tr>
+</table>
+<p>Keys are ignored while you are typing in the filter box.</p>
+
+<h2 id="data">10. About the data</h2>
+<ul>
+<li><b>Scan names:</b> <code>csr0250a</code> is US/Italy subject 250, pose <i>a</i> (standing); <i>b</i> and <i>c</i> are seated poses. <code>nl_1001a</code> is Dutch subject 1001.</li>
+<li><b>PLY scans</b> (<code>.ply.gz</code>): the original scanner meshes, about 150–190 thousand vertices with per-vertex color, in meters with Z pointing up. The browser stands them upright with the feet on the floor.</li>
+<li><b>Landmark files</b> (<code>.lnd</code>): columns 5–7 are x, y, z in millimeters in the scan's own coordinates. Landmarks marked missing (<code>-999</code>) are skipped.</li>
+<li><b>GLB files</b> (<code>gltf/*.glb</code>): converted from the PLY scans. Meters, rotated to the glTF convention (Y up), vertex colors and normals, with the landmarks stored inside as named points in a <code>landmarks</code> group. They open in Blender and other glTF viewers.</li>
+<li><b>Facing direction:</b> worked out from the landmarks (back of neck → sternum) and used for the Front/Side/Back views and for turning bodies in Multi and Compare.</li>
+</ul>
+
+<h2 id="limits">11. Limits and troubleshooting</h2>
+<ul>
+<li><b>Memory:</b> each body uses about 10 MB once loaded. 200 bodies is about 60 million triangles and 1.5–2 GB, so rotating may get slow on smaller machines.</li>
+<li><b>"No matching landmark file":</b> add the folder that contains <code>landmarks/</code> (e.g. pick <code>a2</code> rather than <code>a2/scans</code>), or use the GLB version.</li>
+<li><b>A scan disappears from the list:</b> check the Show buttons, the filter box, and the sex and measurement filters.</li>
+<li><b>Odd gaps in Line layout:</b> stray scanner specks near the feet or stool count toward a body's width.</li>
+<li><b>Nothing appears:</b> the page needs an internet connection the first time, to load the three.js 3D library.</li>
+<li><b>Compressed GLBs</b> (meshopt + quantization, made with gltfpack) open in this browser and in three.js; some other glTF tools can't read meshopt-compressed files, so use the uncompressed GLBs from the <code>gltf</code> folders there.</li>
+</ul>
+<p style="margin-top:36px"><a href="index.html">← Back to the browser</a></p>
+</div></body></html>
