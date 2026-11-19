@@ -4,7 +4,7 @@ A web browser for 3D body scans from the CAESAR™ anthropometric survey (US, It
 
 By Sandy Ressler.
 
-### [▶ RUN ME: open the live CAESAR™ Scan Browser](https://claude.ai/artifact/HT5aBXNzxDDL95aFZerRgt)
+### [▶ RUN ME: open the live CAESAR™ Scan Browser](https://sressler.github.io/BodyBrowser/)
 
 ![Multi mode, Cube layout with fog and the cube outline](docs/images/multi_cube.png)
 
