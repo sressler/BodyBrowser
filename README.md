@@ -60,19 +60,6 @@ find a*/gltf -maxdepth 1 -name '*.glb' ! -name '.*' | xargs -P 8 -I{} sh -c \
 
 Do the same for the `b*` folders into `gltflightB`. The browser's **load A** and **load B** buttons read these two folders. The built-in sample files are such light copies.
 
-## Screenshots
-
-**Multi mode, Wall layout**
-
-![Multi mode, Wall layout](docs/images/multi_wall.png)
-
-**Compare mode:** standing and seated scans of one subject superimposed, B tinted orange at 60% opacity
-
-![Compare mode](docs/images/compare.png)
-
-**Single mode** with landmarks colored by body region
-
-![Single mode](docs/images/single.png)
 
 ## Help
 
