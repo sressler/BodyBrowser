@@ -106,9 +106,9 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
 
 |  |  |
 | --- | --- |
-| Add folder… | Pick any folder, e.g. `CAESARall/data/a2` or the whole `CAESARall/data`. Every `.glb` in that folder **and all its subfolders** is added to the list; other files (`.ply.gz`, `.lnd`, `.txt`, hidden `._` files) are ignored. In Single mode the first new scan opens; in Multi mode use Add all shown to put the listed scans in the scene. |
-| load A | Pick `CAESARall/data/gltflightA` (or the `data` folder that holds it). Loads every light *a* scan into the scene in Multi mode, up to the Body limit, with a progress popup (count, progress bar, time left, Stop). Names and landmarks are switched off first to keep large scenes fast; turn them back on with `N` and `L`. See section 12. |
-| load B | The same for `CAESARall/data/gltflightB` (the light *b* scans). Run load A then load B to have both collections in one scene. |
+| Add folder… | Pick any folder (if you have the body files locally), e.g. a folder of scans or the folder that holds several of them. Every `.glb` in that folder **and all its subfolders** is added to the list; other files (`.ply.gz`, `.lnd`, `.txt`, hidden `._` files) are ignored. In Single mode the first new scan opens; in Multi mode use Add all shown to put the listed scans in the scene. |
+| load A | If you have the body files locally, pick the `gltflightA` folder (or the folder that holds it). Loads every light *a* scan into the scene in Multi mode, up to the Body limit, with a progress popup (count, progress bar, time left, Stop). Names and landmarks are switched off first to keep large scenes fast; turn them back on with `N` and `L`. See section 12. |
+| load B | The same for the `gltflightB` folder (the light *b* scans). Run load A then load B to have both collections in one scene. |
 | Add files… | Add individual `.glb`, `.ply.gz` or `.lnd` files. You can also drag files onto the 3D view. |
 | Clear | Empty the list and remove every body from the scene. |
 | Load sample set | Add the 60 built-in scans to the list and load them into the scene (in Single mode, open the first). |
@@ -117,7 +117,7 @@ Loads add up: run Add folder on `a2`, then `b2`, and all of them appear in one l
 
 **No scans on this computer?** Click Load sample set (or the link in the empty view). It loads 60 scans stored with this page: 30 people (15 men and 15 women spread from the shortest to the tallest in the sample), each with a standing (*a*) and a matching seated (*b*) scan, which suit Compare mode. They are the **light** versions (names ending `C`, e.g. `csr0250aC`): about a tenth of the triangles and about 0.6 MB each, with colors and landmarks kept.
 
-**Which folder to pick?** `a` folders hold standing scans, `b` seated, `c` a second seated pose. A browser can only read inside the folder you pick, and it does not follow links or aliases to other folders, so pick the real folder (e.g. `CAESARall/data`, not a folder of aliases). When you pick a large folder the browser asks you to confirm “upload” of every file in it; nothing actually leaves your computer, and only the `.glb` files are used. The measurement data is built in, so you don't need the measurement files.
+**Which folder to pick?** `a` folders hold standing scans, `b` seated, `c` a second seated pose. A browser can only read inside the folder you pick, and it does not follow links or aliases to other folders, so pick the real folder, not a folder of aliases. When you pick a large folder the browser asks you to confirm “upload” of every file in it; nothing actually leaves your computer, and only the `.glb` files are used. The measurement data is built in, so you don't need the measurement files.
 
 ### 2. The file list
 
@@ -305,7 +305,7 @@ Keys are ignored while you are typing in a text field such as the filter box.
 
 ### 12. Light (compressed) scan sets
 
-The folders `CAESARall/data/gltflightA` (4,391 *a* scans) and `gltflightB` (3,977 *b* scans) hold light copies of the GLB scans, named with a trailing `C` (e.g. `csr0001aC.glb`). They were made with `gltfpack -si 0.1 -kn -ke -noq`: about 10% of the triangles, colors kept, all landmarks kept with their names and numbers, and plain (unquantized) coordinates. Each is about a tenth of the size and memory of the original, and at normal viewing distance they look almost the same.
+If you have the body files locally, the folders `gltflightA` (4,391 *a* scans) and `gltflightB` (3,977 *b* scans) hold light copies of the GLB scans, named with a trailing `C` (e.g. `csr0001aC.glb`). They were made with `gltfpack -si 0.1 -kn -ke -noq`: about 10% of the triangles, colors kept, all landmarks kept with their names and numbers, and plain (unquantized) coordinates. Each is about a tenth of the size and memory of the original, and at normal viewing distance they look almost the same.
 
 - Load them with load A and load B (section 1), or with Add folder.
 - Raise the **Body limit** slider before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).
