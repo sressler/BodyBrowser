@@ -1,6 +1,6 @@
 # BodyBrowser: CAESAR™ Scan Browser
 
-A web browser for 3D body scans from the CAESAR™ anthropometric survey (US, Italy and the Netherlands). It shows the scans with their anatomical landmarks, filters subjects by measurement and sex, lays out up to 200 bodies at once, and compares two bodies side by side or superimposed. It runs entirely in the browser, uses three.js, and reads scans from your own disk. Nothing is uploaded.
+A web browser for 3D body scans from the CAESAR™ anthropometric survey (US, Italy and the Netherlands). It shows the scans with their anatomical landmarks, filters subjects by measurement and sex, lays out hundreds or thousands of bodies at once (up to a Body limit you set), flies the camera to any body you click, draws CAESAR tape measures on the scans, and compares two bodies side by side or superimposed. It runs entirely in the browser, uses three.js, and reads scans from your own disk. Nothing is uploaded.
 
 By Sandy Ressler.
 
@@ -14,10 +14,11 @@ By Sandy Ressler.
 | --- | --- |
 | `index.html` | The browser: one self-contained page. The measurement and sex tables for all 4,459 subjects are built in. |
 | `help.html` | The help page linked from the browser. |
-| `samples/*.txt` | The built-in sample set: 60 scans (30 subjects, each with a standing *a* and a seated *b* scan). Each is a meshopt-compressed GLB stored as base64 text. |
+| `samples/*.txt` | The built-in sample set: 60 light scans (30 subjects, each with a standing *a* and a seated *b* scan; names end in `C`, e.g. `csr0250aC`). Each is a GLB simplified to about 10% of the triangles, stored as base64 text because the Claude artifact host does not serve `.glb` files. |
+| `help/*.txt` | The four screenshots shown on the help page, stored as base64 text for the same reason. |
 | `tools/ply2glb.py` | Converts one CAESAR PLY scan (`.ply` or `.ply.gz`), plus its `.lnd` landmark file, to a single GLB with vertex colors, normals and landmarks as named nodes. |
 | `tools/convert_folders.py` | Batch, resumable, time-boxed conversion of whole CAESAR data folders (`a1`–`a21`, `b1`–`b21`, …) into each folder's `gltf/` subfolder. |
-| `docs/images/` | Screenshots used in this README. |
+| `docs/images/` | Screenshots used in this README (and copies of the help-page screenshots). |
 
 The full CAESAR scan data (PLY, landmark and measurement files) is not included in this repository.
 
@@ -46,7 +47,18 @@ python3 tools/convert_folders.py /path/to/CAESARall/data 'a\d+' 0
 python3 tools/convert_folders.py /path/to/CAESARall/data 'a\d+' 110
 ```
 
-The output is in metres and rotated from the scanner's Z-up to glTF's Y-up, (x, y, z) → (x, z, −y). Landmarks are stored as nodes named like `11 Suprasternale` under a `landmarks` node, with `extras.landmark_id`. The sample files were further compressed with `gltfpack -cc -kn -ke`.
+The output is in metres and rotated from the scanner's Z-up to glTF's Y-up, (x, y, z) → (x, z, −y). Landmarks are stored as nodes named like `11 Suprasternale` under a `landmarks` node, with `extras.landmark_id`. ### Light (compressed) versions
+
+For scenes with thousands of bodies, make light copies with [gltfpack](https://github.com/zeux/meshoptimizer/tree/master/gltf) (`npm install -g gltfpack`). This keeps about 10% of the triangles, the vertex colors, and every landmark node with its name and `landmark_id`:
+
+```sh
+cd /path/to/CAESARall/data
+mkdir -p gltflightA
+find a*/gltf -maxdepth 1 -name '*.glb' ! -name '.*' | xargs -P 8 -I{} sh -c \
+  'n=$(basename "{}" .glb); [ -s "gltflightA/${n}C.glb" ] || gltfpack -i "{}" -o "gltflightA/${n}C.glb" -si 0.1 -kn -ke -noq'
+```
+
+Do the same for the `b*` folders into `gltflightB`. The browser's **load A** and **load B** buttons read these two folders. The built-in sample files are such light copies.
 
 ## Screenshots
 
@@ -80,30 +92,43 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
 - 9\. Keyboard and mouse summary
 - 10\. About the data
 - 11\. Limits and troubleshooting
+- 12\. Light (compressed) scan sets
 
 ### 1. Getting started
 
 **When the page opens** it loads the built-in sample set (60 scans) into **Multi** mode with the **Cube** layout and fog turned on. The bodies appear one after another as they download. Use Clear scene and Clear to start fresh with your own folders.
 
-1. Click Add folder… and choose a folder from `CAESARall/data`, for example `a2`.
-2. The browser finds every scan inside it: `scans/*.ply.gz` (original scanner files), `gltf/*.glb` (converted files), and the matching `landmarks/*.lnd` files.
-3. The first scan is displayed automatically. Click any other entry in the list to display it.
+![The 60 sample scans arranged in a cube in Multi mode](docs/images/help_cube.jpg)
 
-Folders add up: choose `a2`, then `b2`, then `a2/gltf`, and all of them appear in one list. Add files… adds individual files, and you can also drag files onto the 3D view. Clear empties the list and removes every body from the scene.
+*The 60 built-in sample scans in Multi mode, Cube layout, with fog.*
 
-**No scans on this computer?** Click Load sample set (or the link in the empty view). It loads 60 scans stored with this page: 30 people (15 men and 15 women spread from the shortest to the tallest in the sample), each with a standing (*a*) and a matching seated (*b*) scan, which suit Compare mode. These are compressed GLBs (about 1.3 MB each instead of 8 MB) with colors and landmarks kept; positions are stored to about 0.1 mm. The sample set adds to the list like a folder does.
+#### Loading buttons
 
-**Which folder to pick?** `a` folders hold standing scans, `b` seated, `c` a second seated pose. Picking a folder's parent (e.g. `a2`) gives you both its PLY and GLB files; picking `a2/gltf` gives just the GLBs. A browser can only read inside the folder you pick, so files in parent folders are not seen. The measurement data is built in, so you don't need them.
+|  |  |
+| --- | --- |
+| Add folder… | Pick any folder, e.g. `CAESARall/data/a2` or the whole `CAESARall/data`. Every `.glb` in that folder **and all its subfolders** is added to the list; other files (`.ply.gz`, `.lnd`, `.txt`, hidden `._` files) are ignored. In Single mode the first new scan opens; in Multi mode use Add all shown to put the listed scans in the scene. |
+| load A | Pick `CAESARall/data/gltflightA` (or the `data` folder that holds it). Loads every light *a* scan into the scene in Multi mode, up to the Body limit, with a progress popup (count, progress bar, time left, Stop). Names and landmarks are switched off first to keep large scenes fast; turn them back on with `N` and `L`. See section 12. |
+| load B | The same for `CAESARall/data/gltflightB` (the light *b* scans). Run load A then load B to have both collections in one scene. |
+| Add files… | Add individual `.glb`, `.ply.gz` or `.lnd` files. You can also drag files onto the 3D view. |
+| Clear | Empty the list and remove every body from the scene. |
+| Load sample set | Add the 60 built-in scans to the list and load them into the scene (in Single mode, open the first). |
+
+Loads add up: run Add folder on `a2`, then `b2`, and all of them appear in one list.
+
+**No scans on this computer?** Click Load sample set (or the link in the empty view). It loads 60 scans stored with this page: 30 people (15 men and 15 women spread from the shortest to the tallest in the sample), each with a standing (*a*) and a matching seated (*b*) scan, which suit Compare mode. They are the **light** versions (names ending `C`, e.g. `csr0250aC`): about a tenth of the triangles and about 0.6 MB each, with colors and landmarks kept.
+
+**Which folder to pick?** `a` folders hold standing scans, `b` seated, `c` a second seated pose. A browser can only read inside the folder you pick, and it does not follow links or aliases to other folders, so pick the real folder (e.g. `CAESARall/data`, not a folder of aliases). When you pick a large folder the browser asks you to confirm “upload” of every file in it; nothing actually leaves your computer, and only the `.glb` files are used. The measurement data is built in, so you don't need the measurement files.
 
 ### 2. The file list
 
-- Each entry shows the scan name, a PLY or GLB tag, the subject's sex (M/F) and measurement values, and the file size.
-- A  green dot on a PLY entry means a matching landmark file was found. GLB files carry their landmarks inside.
+- Each entry shows the scan name exactly as the file is named (upper/lower case kept, e.g. `csr0250aC`), a PLY or GLB tag, the subject's sex (M/F) and measurement values, and the file size.
+- A green dot on a PLY entry means a matching landmark file was found. GLB files carry their landmarks inside.
 - **Show: All / PLY / GLB** limits the list to one file type.
 - The **Filter** box matches part of the name, e.g. `030` or `nl_`.
 - The measurement and sex filters (section 8) also narrow the list.
 - Download 1st selected (below the Show buttons) saves the first selected scan in the list: the one shown in Single mode, the first body in the scene in Multi mode, or the first of A/B in Compare mode. In the Claude artifact viewer the file arrives inside a .zip; on the hosted website it downloads as is.
 - **Shift-click** (Multi mode): click one scan, then shift-click another to add every scan between them, as in the Finder. To remove a range, click a scan that is in the scene (which removes it), then shift-click another: every scan between them is removed.
+- If a click can't add a body, an orange notice at the top of the 3D view says why: the Body limit is reached (raise the slider or remove some bodies), or the body was added but is hidden by the filters.
 
 ### 3. Single mode
 
@@ -111,7 +136,9 @@ One body at a time. Click a list entry, or use ◀ Prev Next ▶ or `↑` `↓` 
 
 ### 4. Multi mode
 
-Many bodies at once (up to 200). Clicking a list entry **adds** that body to the scene; clicking it again **removes** it. Bodies in the scene are highlighted in the list. Every body is turned to face the front, using its landmarks, and has a name tag underneath.
+Many bodies at once, up to the **Body limit**. Clicking a list entry **adds** that body to the scene; clicking it again **removes** it. Bodies in the scene are highlighted in the list. Every body is turned to face the front, using its landmarks, and has a name tag underneath.
+
+**Body limit** slider (10 to 9,000, default 2,000): the most bodies the scene may hold. It takes effect at once, also during a load in progress; lowering it does not remove bodies already loaded. It resets to 2,000 when the page reloads. Each full-resolution scan uses a lot of memory, so use the light scans (section 12) for large scenes.
 
 | Layout | Arrangement |
 | --- | --- |
@@ -121,7 +148,25 @@ Many bodies at once (up to 200). Clicking a list entry **adds** that body to the
 
 - Add all shown adds every scan currently in the list (after filters). Use the filters first to choose a group.
 - Clear scene removes all bodies but keeps the list.
-- Bodies that stop passing a filter are hidden, and the layout closes up the gaps.
+- Bodies that stop passing a filter are hidden, and the layout closes up the gaps. Press Fit all afterwards to centre what is left.
+
+#### Click a body to look at it
+
+- **Click a body** in the 3D view: the camera glides to a straight-on view in front of it. In the Cube layout, bodies in the rows in front may still partly block the view.
+- **Click empty space** afterwards: the camera glides back to where it was before the first body click (even after clicking several bodies, or orbiting and zooming in between). Fit all and the view buttons forget that saved view.
+- Clicking a landmark still pins its label (section 7), and dragging still orbits.
+
+![Front view of one body after clicking it](docs/images/help_clickbody.jpg)
+
+*After clicking a body (csr0522aC): the camera glides to a front view of it. Click empty space to glide back.*
+
+#### Camera tours
+
+|  |  |
+| --- | --- |
+| Each body | The camera visits every visible body in turn (left to right in Line layout), framing it head to toe, pausing 0.2 s at each, and stops after the last one. |
+| Random | The camera visits randomly chosen visible bodies, 0.2 s each, until stopped (never the same one twice in a row). |
+| Stop | Ends a tour. Dragging in the 3D view also stops it. Starting a tour turns Auto-rotate off. |
 
 ### 5. Compare mode
 
@@ -133,6 +178,10 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 - **Separation** slider: the distance between the two bodies' centers. At 0 cm they overlap completely; dragging moves A left and B right.
 - Superimposed jumps to 0 cm. Side by side jumps to the distance where their nearest edges are 15 cm apart.
 - The header shows both scan heights, the value of the first checked measurement (stature if none), and the difference B − A.
+
+![Two seated scans side by side in Compare mode](docs/images/help_compare.jpg)
+
+*Compare mode: smallest and largest chest in the B set (csr1496bC and csr0633bC), tints off, both at 100% opacity, side by side 100 cm apart.*
 
 ### 6. Moving around and display options
 
@@ -153,8 +202,13 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 | Auto-rotate | Slowly spin the view. |
 | Fit all | Reframe the camera on everything in the scene. |
 | Fog + slider | Fade farther bodies into the background (distance fog). The slider sets the strength; the fog follows the camera, so whatever is nearest stays clear. |
-| Names | Show or hide the file-name tags under the bodies (Multi and Compare). |
-| – / + | Collapse or expand the control panel. |
+| Names | Show or hide the file-name tags under the bodies (Multi and Compare). Key `N`. |
+| – / + | Collapse or expand the floating panel at the top of the 3D view. Collapse it when it covers bodies you want to click. |
+| « / » Controls | « (top right of the left panel) hides the whole left control panel so the 3D view fills the window; » Controls (bottom left) brings it back. |
+
+#### Single-key toggles
+
+`R` Auto-rotate · `N` name tags · `L` landmarks. Each works exactly like clicking its button. They are ignored while you type in a text field, and when `Cmd`, `Ctrl` or `Alt` is held.
 
 ### 7. Landmarks
 
@@ -166,7 +220,7 @@ Head & neck   Torso   Arms & hands   Legs & feet   Crotch (a computed point 
 - **Click** a sphere to pin a label that stays on screen and follows it as you move. Click it again to remove the label. Pinned landmarks are drawn larger.
 - Pins go by landmark number, so pinning "11. Suprasternale" labels it on *every* body in the scene, and the pins stay when you switch scans.
 - A pinned label is dimmed when its point is on the far side of a body (only with 12 or fewer bodies, to keep things fast).
-- Show hides or shows all spheres. X-ray draws them through the body. Clear labels removes all pins. The **size** slider changes the sphere size.
+- Show (key `L`) hides or shows all spheres. X-ray draws them through the body. Clear labels removes all pins. The **size** slider changes the sphere size.
 
 ### 7a. Tape measures and definitions
 
@@ -179,7 +233,11 @@ Pick up to two measurements from the **Tape measures** menus in the left panel, 
 
 The readout and labels give the table value (measured by hand) and, where the scan allows, the length of the tape on the scan. They differ because the scan posture is not the measuring posture (for example, arm lengths were taken with the arm bent and the fist on the hip). Seated measures appear only on seated (b/c) scans and standing measures only on standing (a) scans. Weight, skinfolds and thumb-tip reach are not drawn.
 
-In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Labels on the bodies are shown only when there are 12 or fewer.
+In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Each tape has a label beside the body with the measure's name, the table value and the tape length on the scan. Labels are shown when there are up to 60 bodies **on screen** (bodies hidden by filters don't count), so filtering down to a few bodies always brings the labels back.
+
+![Wall of six tallest scans with stature and waist tapes and labels; filter panel on the left](docs/images/help_tapes_filters.jpg)
+
+*Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ on the two-circle slider; Sex and Set rows above it), with Stature (yellow) and Waist Circumference (blue) tapes and their labels.*
 
 A card at the bottom right shows the report's description, method, instrument, ISO 7250 reference and line drawing for the chosen measurement, with its page number. With two tapes on, tabs switch between them. Use – on the card to fold it.
 
@@ -189,11 +247,17 @@ A card at the bottom right shows the report's description, method, instrument, I
 
 **All / Male / Female** radio buttons.
 
+#### Set
+
+**AB / A / B** radio buttons: show both collections, only the *a* (standing) scans, or only the *b* (seated) scans. The collection is read from the letter after the subject number, so `csr0001a`, `csr0001aC` and `nl_1001aC` are A and `csr0001bC` is B.
+
 #### Three measurement filters
 
-Each slot has a checkbox (on/off), a dropdown of the 45 traditional measurements, and **Min**/**Max** sliders showing inches and cm (pounds and kg for weight). Choosing a measurement resets its sliders to that measure's full range. The defaults are Stature, Weight and Chest Circumference.
+Each slot has a checkbox (on/off), a dropdown of the 45 traditional measurements, and **one range slider with two circles**: drag the left circle to set the minimum and the right circle to set the maximum. The chosen range is highlighted, and the values show underneath in inches and cm (pounds and kg for weight). The circles can't cross. Choosing a measurement resets the range to that measure's full span. The defaults are Stature, Weight and Chest Circumference. The slider is greyed out until the filter's checkbox is ticked.
 
-- A body must pass **every** checked filter and the sex filter to be listed or shown.
+Example: to find the person with the largest chest, tick Chest Circumference and drag the left circle up until one body is left; for the smallest, drag the right circle down.
+
+- A body must pass **every** checked filter, the sex filter and the set filter to be listed or shown.
 - Scans missing a value for a checked measurement are hidden; the count line says how many.
 - List entries show the values of the checked measurements (stature when none is checked).
 
@@ -208,17 +272,21 @@ The measurement and sex data for all 4,459 subjects (all a, b and c folders) is 
 | Input | Action |
 | --- | --- |
 | Drag · scroll · right-drag | Rotate · zoom · pan |
-| `W` `A` `S` `D` · `Q` `E` · `Shift` | Fly · down/up · faster |
+| `W``A``S``D` · `Q``E` · `Shift` | Fly · down/up · faster |
 | `↑` `↓` | Previous / next scan (Single mode) |
 | Click list entry | Show (Single) · add/remove (Multi) · put in A or B (Compare) |
 | `Shift`-click list entry | Add or remove the whole range, following the first-clicked scan (Multi) |
 | Hover / click landmark | Show name / pin or unpin its label on every body |
+| Click a body | Glide to a front view of that body |
+| Click empty space | Glide back to the view before the first body click |
+| `R` · `N` · `L` | Auto-rotate · name tags · landmarks on/off |
 
-Keys are ignored while you are typing in the filter box.
+Keys are ignored while you are typing in a text field such as the filter box.
 
 ### 10. About the data
 
-- **Scan names:** `csr0250a` is US/Italy subject 250, pose *a* (standing); *b* and *c* are seated poses. `nl_1001a` is Dutch subject 1001.
+- **Scan names:** `csr0250a` is US/Italy subject 250, pose *a* (standing); *b* and *c* are seated poses. `nl_1001a` is Dutch subject 1001. A trailing capital `C` (`csr0250aC`) marks a light (compressed) copy; the browser reads the subject and pose the same way.
+- **Dutch (`nl_`) GLBs** store the body mesh in millimetres while their landmarks are already in metres. The browser detects this and scales the mesh to metres, so Dutch and US/Italian scans display at the same size together.
 - **PLY scans** (`.ply.gz`): the original scanner meshes, about 150–190 thousand vertices with per-vertex color, in meters with Z pointing up. The browser stands them upright with the feet on the floor.
 - **Landmark files** (`.lnd`): columns 5–7 are x, y, z in millimeters in the scan's own coordinates. Landmarks marked missing (`-999`) are skipped.
 - **GLB files** (`gltf/*.glb`): converted from the PLY scans. Meters, rotated to the glTF convention (Y up), vertex colors and normals, with the landmarks stored inside as named points in a `landmarks` group. They open in Blender and other glTF viewers.
@@ -226,9 +294,19 @@ Keys are ignored while you are typing in the filter box.
 
 ### 11. Limits and troubleshooting
 
-- **Memory:** each body uses about 10 MB once loaded. 200 bodies is about 60 million triangles and 1.5–2 GB, so rotating may get slow on smaller machines.
+- **Memory:** a full-resolution scan is 150–210 thousand vertices and about 400 thousand triangles, roughly 7–10 MB of graphics memory plus as much again in the page. A browser tab runs out of memory somewhere around 1,500–2,000 full-resolution bodies, and the buttons get slow well before that. Use the light scans (section 12) for big scenes.
+- **Buttons slow to respond during a big load:** each new body re-arranges the whole scene. Let the load finish or press Stop in the progress popup.
+- **Clicks don't add bodies:** look for the orange notice at the top of the 3D view: the Body limit may be reached, or the body may be hidden by a filter.
 - **"No matching landmark file":** add the folder that contains `landmarks/` (e.g. pick `a2` rather than `a2/scans`), or use the GLB version.
 - **A scan disappears from the list:** check the Show buttons, the filter box, and the sex and measurement filters.
 - **Odd gaps in Line layout:** stray scanner specks near the feet or stool count toward a body's width.
 - **Nothing appears:** the page needs an internet connection the first time, to load the three.js 3D library.
 - **Compressed GLBs** (meshopt + quantization, made with gltfpack) open in this browser and in three.js; some other glTF tools can't read meshopt-compressed files, so use the uncompressed GLBs from the `gltf` folders there.
+
+### 12. Light (compressed) scan sets
+
+The folders `CAESARall/data/gltflightA` (4,391 *a* scans) and `gltflightB` (3,977 *b* scans) hold light copies of the GLB scans, named with a trailing `C` (e.g. `csr0001aC.glb`). They were made with `gltfpack -si 0.1 -kn -ke -noq`: about 10% of the triangles, colors kept, all landmarks kept with their names and numbers, and plain (unquantized) coordinates. Each is about a tenth of the size and memory of the original, and at normal viewing distance they look almost the same.
+
+- Load them with load A and load B (section 1), or with Add folder.
+- Raise the **Body limit** slider before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).
+- Use the original `gltf` folders when you need full detail, for example close-ups or tape measures on a single body.

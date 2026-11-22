@@ -25,6 +25,7 @@ th{color:#fff;font-weight:600;background:#15171b}
 ul{padding-left:22px}li{margin:3px 0}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
 .tag{font-size:11px;font-weight:700;padding:0 5px;border-radius:3px;color:#fff}
+figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px solid #2c3038;border-radius:8px}figcaption{font-size:13px;color:#8a92a0;margin-top:6px}
 @media (max-width:640px){nav{columns:1}}
 </style></head>
 <body><div class="wrap">
@@ -44,35 +45,43 @@ ul{padding-left:22px}li{margin:3px 0}
 <a href="#keys">9. Keyboard and mouse summary</a>
 <a href="#data">10. About the data</a>
 <a href="#limits">11. Limits and troubleshooting</a>
+<a href="#light">12. Light (compressed) scan sets</a>
 </nav>
 
 <h2 id="start">1. Getting started</h2>
 <p><b>When the page opens</b> it loads the built-in sample set (60 scans) into <b>Multi</b> mode with the <b>Cube</b> layout and fog turned on. The bodies appear one after another as they download. Use <span class="btn">Clear scene</span> and <span class="btn">Clear</span> to start fresh with your own folders.</p>
-<ol>
-<li>Click <span class="btn p">Add folder…</span> and choose a folder from <code>CAESARall/data</code>, for example <code>a2</code>.</li>
-<li>The browser finds every scan inside it: <code>scans/*.ply.gz</code> (original scanner files), <code>gltf/*.glb</code> (converted files), and the matching <code>landmarks/*.lnd</code> files.</li>
-<li>The first scan is displayed automatically. Click any other entry in the list to display it.</li>
-</ol>
-<p>Folders add up: choose <code>a2</code>, then <code>b2</code>, then <code>a2/gltf</code>, and all of them appear in one list. <span class="btn">Add files…</span> adds individual files, and you can also drag files onto the 3D view. <span class="btn">Clear</span> empties the list and removes every body from the scene.</p>
-<div class="note"><b>No scans on this computer?</b> Click <span class="btn">Load sample set</span> (or the link in the empty view). It loads 60 scans stored with this page: 30 people (15 men and 15 women spread from the shortest to the tallest in the sample), each with a standing (<i>a</i>) and a matching seated (<i>b</i>) scan, which suit Compare mode. These are compressed GLBs (about 1.3 MB each instead of 8 MB) with colors and landmarks kept; positions are stored to about 0.1 mm. The sample set adds to the list like a folder does.</div>
-<div class="note"><b>Which folder to pick?</b> <code>a</code> folders hold standing scans, <code>b</code> seated, <code>c</code> a second seated pose. Picking a folder's parent (e.g. <code>a2</code>) gives you both its PLY and GLB files; picking <code>a2/gltf</code> gives just the GLBs. A browser can only read inside the folder you pick, so files in parent folders are not seen. The measurement data is built in, so you don't need them.</div>
+<figure><img data-b64="help/1_cube.txt" alt="The 60 sample scans arranged in a cube in Multi mode" loading="lazy"><figcaption>The 60 built-in sample scans in Multi mode, Cube layout, with fog.</figcaption></figure>
+<h3>Loading buttons</h3>
+<table>
+<tr><td><span class="btn p">Add folder…</span></td><td>Pick any folder, e.g. <code>CAESARall/data/a2</code> or the whole <code>CAESARall/data</code>. Every <code>.glb</code> in that folder <b>and all its subfolders</b> is added to the list; other files (<code>.ply.gz</code>, <code>.lnd</code>, <code>.txt</code>, hidden <code>._</code> files) are ignored. In Single mode the first new scan opens; in Multi mode use <span class="btn">Add all shown</span> to put the listed scans in the scene.</td></tr>
+<tr><td><span class="btn">load A</span></td><td>Pick <code>CAESARall/data/gltflightA</code> (or the <code>data</code> folder that holds it). Loads every light <i>a</i> scan into the scene in Multi mode, up to the Body limit, with a progress popup (count, progress bar, time left, <span class="btn">Stop</span>). Names and landmarks are switched off first to keep large scenes fast; turn them back on with <kbd>N</kbd> and <kbd>L</kbd>. See section 12.</td></tr>
+<tr><td><span class="btn">load B</span></td><td>The same for <code>CAESARall/data/gltflightB</code> (the light <i>b</i> scans). Run load A then load B to have both collections in one scene.</td></tr>
+<tr><td><span class="btn">Add files…</span></td><td>Add individual <code>.glb</code>, <code>.ply.gz</code> or <code>.lnd</code> files. You can also drag files onto the 3D view.</td></tr>
+<tr><td><span class="btn">Clear</span></td><td>Empty the list and remove every body from the scene.</td></tr>
+<tr><td><span class="btn">Load sample set</span></td><td>Add the 60 built-in scans to the list and load them into the scene (in Single mode, open the first).</td></tr>
+</table>
+<p>Loads add up: run Add folder on <code>a2</code>, then <code>b2</code>, and all of them appear in one list.</p>
+<div class="note"><b>No scans on this computer?</b> Click <span class="btn">Load sample set</span> (or the link in the empty view). It loads 60 scans stored with this page: 30 people (15 men and 15 women spread from the shortest to the tallest in the sample), each with a standing (<i>a</i>) and a matching seated (<i>b</i>) scan, which suit Compare mode. They are the <b>light</b> versions (names ending <code>C</code>, e.g. <code>csr0250aC</code>): about a tenth of the triangles and about 0.6 MB each, with colors and landmarks kept.</div>
+<div class="note"><b>Which folder to pick?</b> <code>a</code> folders hold standing scans, <code>b</code> seated, <code>c</code> a second seated pose. A browser can only read inside the folder you pick, and it does not follow links or aliases to other folders, so pick the real folder (e.g. <code>CAESARall/data</code>, not a folder of aliases). When you pick a large folder the browser asks you to confirm “upload” of every file in it; nothing actually leaves your computer, and only the <code>.glb</code> files are used. The measurement data is built in, so you don't need the measurement files.</div>
 
 <h2 id="list">2. The file list</h2>
 <ul>
-<li>Each entry shows the scan name, a <span class="tag" style="background:#3a3f4a">PLY</span> or <span class="tag" style="background:#6a4fd8">GLB</span> tag, the subject's sex (M/F) and measurement values, and the file size.</li>
+<li>Each entry shows the scan name exactly as the file is named (upper/lower case kept, e.g. <code>csr0250aC</code>), a <span class="tag" style="background:#3a3f4a">PLY</span> or <span class="tag" style="background:#6a4fd8">GLB</span> tag, the subject's sex (M/F) and measurement values, and the file size.</li>
 <li>A <span class="dot" style="background:#6dff8a"></span> green dot on a PLY entry means a matching landmark file was found. GLB files carry their landmarks inside.</li>
 <li><b>Show: All / PLY / GLB</b> limits the list to one file type.</li>
 <li>The <b>Filter</b> box matches part of the name, e.g. <code>030</code> or <code>nl_</code>.</li>
 <li>The measurement and sex filters (section 8) also narrow the list.</li>
 <li><span class="btn">Download 1st selected</span> (below the Show buttons) saves the first selected scan in the list: the one shown in Single mode, the first body in the scene in Multi mode, or the first of A/B in Compare mode. In the Claude artifact viewer the file arrives inside a .zip; on the hosted website it downloads as is.</li>
 <li><b>Shift-click</b> (Multi mode): click one scan, then shift-click another to add every scan between them, as in the Finder. To remove a range, click a scan that is in the scene (which removes it), then shift-click another: every scan between them is removed.</li>
+<li>If a click can't add a body, an orange notice at the top of the 3D view says why: the Body limit is reached (raise the slider or remove some bodies), or the body was added but is hidden by the filters.</li>
 </ul>
 
 <h2 id="single">3. Single mode</h2>
 <p>One body at a time. Click a list entry, or use <span class="btn">◀ Prev</span> <span class="btn">Next ▶</span> or <kbd>↑</kbd> <kbd>↓</kbd> to step through the list. The header shows vertex and triangle counts, the scan height, the subject's sex and the values of the three selected measurements.</p>
 
 <h2 id="multi">4. Multi mode</h2>
-<p>Many bodies at once (up to 200). Clicking a list entry <b>adds</b> that body to the scene; clicking it again <b>removes</b> it. Bodies in the scene are highlighted in the list. Every body is turned to face the front, using its landmarks, and has a name tag underneath.</p>
+<p>Many bodies at once, up to the <b>Body limit</b>. Clicking a list entry <b>adds</b> that body to the scene; clicking it again <b>removes</b> it. Bodies in the scene are highlighted in the list. Every body is turned to face the front, using its landmarks, and has a name tag underneath.</p>
+<p><b>Body limit</b> slider (10 to 9,000, default 2,000): the most bodies the scene may hold. It takes effect at once, also during a load in progress; lowering it does not remove bodies already loaded. It resets to 2,000 when the page reloads. Each full-resolution scan uses a lot of memory, so use the light scans (section 12) for large scenes.</p>
 <table>
 <tr><th>Layout</th><th>Arrangement</th></tr>
 <tr><td><span class="btn">Wall</span></td><td>A grid of rows stacked upward and columns side by side, starting top-left. The number of columns follows the window's shape.</td></tr>
@@ -82,8 +91,21 @@ ul{padding-left:22px}li{margin:3px 0}
 <ul>
 <li><span class="btn">Add all shown</span> adds every scan currently in the list (after filters). Use the filters first to choose a group.</li>
 <li><span class="btn">Clear scene</span> removes all bodies but keeps the list.</li>
-<li>Bodies that stop passing a filter are hidden, and the layout closes up the gaps.</li>
+<li>Bodies that stop passing a filter are hidden, and the layout closes up the gaps. Press <span class="btn">Fit all</span> afterwards to centre what is left.</li>
 </ul>
+<h3>Click a body to look at it</h3>
+<ul>
+<li><b>Click a body</b> in the 3D view: the camera glides to a straight-on view in front of it. In the Cube layout, bodies in the rows in front may still partly block the view.</li>
+<li><b>Click empty space</b> afterwards: the camera glides back to where it was before the first body click (even after clicking several bodies, or orbiting and zooming in between). <span class="btn">Fit all</span> and the view buttons forget that saved view.</li>
+<li>Clicking a landmark still pins its label (section 7), and dragging still orbits.</li>
+</ul>
+<figure><img data-b64="help/2_clickbody.txt" alt="Front view of one body after clicking it" loading="lazy"><figcaption>After clicking a body (csr0522aC): the camera glides to a front view of it. Click empty space to glide back.</figcaption></figure>
+<h3>Camera tours</h3>
+<table>
+<tr><td><span class="btn">Each body</span></td><td>The camera visits every visible body in turn (left to right in Line layout), framing it head to toe, pausing 0.2 s at each, and stops after the last one.</td></tr>
+<tr><td><span class="btn">Random</span></td><td>The camera visits randomly chosen visible bodies, 0.2 s each, until stopped (never the same one twice in a row).</td></tr>
+<tr><td><span class="btn">Stop</span></td><td>Ends a tour. Dragging in the 3D view also stops it. Starting a tour turns Auto-rotate off.</td></tr>
+</table>
 
 <h2 id="compare">5. Compare mode</h2>
 <p>Two bodies, <span class="tag" style="background:#3d7bff">A</span> and <span class="tag" style="background:#e8862a">B</span>, for side-by-side or overlaid comparison.</p>
@@ -95,6 +117,7 @@ ul{padding-left:22px}li{margin:3px 0}
 <li><span class="btn">Superimposed</span> jumps to 0 cm. <span class="btn">Side by side</span> jumps to the distance where their nearest edges are 15 cm apart.</li>
 <li>The header shows both scan heights, the value of the first checked measurement (stature if none), and the difference B − A.</li>
 </ul>
+<figure><img data-b64="help/4_compare.txt" alt="Two seated scans side by side in Compare mode" loading="lazy"><figcaption>Compare mode: smallest and largest chest in the B set (csr1496bC and csr0633bC), tints off, both at 100% opacity, side by side 100 cm apart.</figcaption></figure>
 
 <h2 id="view">6. Moving around and display options</h2>
 <h3>Mouse</h3>
@@ -108,9 +131,12 @@ ul{padding-left:22px}li{margin:3px 0}
 <tr><td><span class="btn">Auto-rotate</span></td><td>Slowly spin the view.</td></tr>
 <tr><td><span class="btn">Fit all</span></td><td>Reframe the camera on everything in the scene.</td></tr>
 <tr><td><span class="btn">Fog</span> + slider</td><td>Fade farther bodies into the background (distance fog). The slider sets the strength; the fog follows the camera, so whatever is nearest stays clear.</td></tr>
-<tr><td><span class="btn">Names</span></td><td>Show or hide the file-name tags under the bodies (Multi and Compare).</td></tr>
-<tr><td><span class="btn">–</span> / <span class="btn">+</span></td><td>Collapse or expand the control panel.</td></tr>
+<tr><td><span class="btn">Names</span></td><td>Show or hide the file-name tags under the bodies (Multi and Compare). Key <kbd>N</kbd>.</td></tr>
+<tr><td><span class="btn">–</span> / <span class="btn">+</span></td><td>Collapse or expand the floating panel at the top of the 3D view. Collapse it when it covers bodies you want to click.</td></tr>
+<tr><td><span class="btn">«</span> / <span class="btn">» Controls</span></td><td><span class="btn">«</span> (top right of the left panel) hides the whole left control panel so the 3D view fills the window; <span class="btn">» Controls</span> (bottom left) brings it back.</td></tr>
 </table>
+<h3>Single-key toggles</h3>
+<p><kbd>R</kbd> Auto-rotate · <kbd>N</kbd> name tags · <kbd>L</kbd> landmarks. Each works exactly like clicking its button. They are ignored while you type in a text field, and when <kbd>Cmd</kbd>, <kbd>Ctrl</kbd> or <kbd>Alt</kbd> is held.</p>
 
 <h2 id="landmarks">7. Landmarks</h2>
 <p>Landmarks are the anatomical points marked on each scan (about 73 for standing scans), drawn as small spheres colored by body region:</p>
@@ -120,7 +146,7 @@ ul{padding-left:22px}li{margin:3px 0}
 <li><b>Click</b> a sphere to pin a label that stays on screen and follows it as you move. Click it again to remove the label. Pinned landmarks are drawn larger.</li>
 <li>Pins go by landmark number, so pinning "11. Suprasternale" labels it on <i>every</i> body in the scene, and the pins stay when you switch scans.</li>
 <li>A pinned label is dimmed when its point is on the far side of a body (only with 12 or fewer bodies, to keep things fast).</li>
-<li><span class="btn">Show</span> hides or shows all spheres. <span class="btn">X-ray</span> draws them through the body. <span class="btn">Clear labels</span> removes all pins. The <b>size</b> slider changes the sphere size.</li>
+<li><span class="btn">Show</span> (key <kbd>L</kbd>) hides or shows all spheres. <span class="btn">X-ray</span> draws them through the body. <span class="btn">Clear labels</span> removes all pins. The <b>size</b> slider changes the sphere size.</li>
 </ul>
 
 <h2 id="tape">7a. Tape measures and definitions</h2>
@@ -132,16 +158,20 @@ ul{padding-left:22px}li{margin:3px 0}
 <li><b>Heights</b> stand beside the body from the floor, or from the seat on seated scans, with the table value as the tape length.</li>
 </ul>
 <p>The readout and labels give the table value (measured by hand) and, where the scan allows, the length of the tape on the scan. They differ because the scan posture is not the measuring posture (for example, arm lengths were taken with the arm bent and the fist on the hip). Seated measures appear only on seated (b/c) scans and standing measures only on standing (a) scans. Weight, skinfolds and thumb-tip reach are not drawn.</p>
-<p>In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Labels on the bodies are shown only when there are 12 or fewer.</p>
+<p>In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Each tape has a label beside the body with the measure's name, the table value and the tape length on the scan. Labels are shown when there are up to 60 bodies <b>on screen</b> (bodies hidden by filters don't count), so filtering down to a few bodies always brings the labels back.</p>
+<figure><img data-b64="help/3_tapes_filters.txt" alt="Wall of six tallest scans with stature and waist tapes and labels; filter panel on the left" loading="lazy"><figcaption>Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ on the two-circle slider; Sex and Set rows above it), with Stature (yellow) and Waist Circumference (blue) tapes and their labels.</figcaption></figure>
 <p>A card at the bottom right shows the report's description, method, instrument, ISO 7250 reference and line drawing for the chosen measurement, with its page number. With two tapes on, tabs switch between them. Use <span class="btn">–</span> on the card to fold it.</p>
 
 <h2 id="filters">8. Measurement and sex filters</h2>
 <h3>Sex</h3>
 <p><b>All / Male / Female</b> radio buttons.</p>
+<h3>Set</h3>
+<p><b>AB / A / B</b> radio buttons: show both collections, only the <i>a</i> (standing) scans, or only the <i>b</i> (seated) scans. The collection is read from the letter after the subject number, so <code>csr0001a</code>, <code>csr0001aC</code> and <code>nl_1001aC</code> are A and <code>csr0001bC</code> is B.</p>
 <h3>Three measurement filters</h3>
-<p>Each slot has a checkbox (on/off), a dropdown of the 45 traditional measurements, and <b>Min</b>/<b>Max</b> sliders showing inches and cm (pounds and kg for weight). Choosing a measurement resets its sliders to that measure's full range. The defaults are Stature, Weight and Chest Circumference.</p>
+<p>Each slot has a checkbox (on/off), a dropdown of the 45 traditional measurements, and <b>one range slider with two circles</b>: drag the left circle to set the minimum and the right circle to set the maximum. The chosen range is highlighted, and the values show underneath in inches and cm (pounds and kg for weight). The circles can't cross. Choosing a measurement resets the range to that measure's full span. The defaults are Stature, Weight and Chest Circumference. The slider is greyed out until the filter's checkbox is ticked.</p>
+<p>Example: to find the person with the largest chest, tick Chest Circumference and drag the left circle up until one body is left; for the smallest, drag the right circle down.</p>
 <ul>
-<li>A body must pass <b>every</b> checked filter and the sex filter to be listed or shown.</li>
+<li>A body must pass <b>every</b> checked filter, the sex filter and the set filter to be listed or shown.</li>
 <li>Scans missing a value for a checked measurement are hidden; the count line says how many.</li>
 <li>List entries show the values of the checked measurements (stature when none is checked).</li>
 </ul>
@@ -158,12 +188,16 @@ ul{padding-left:22px}li{margin:3px 0}
 <tr><td>Click list entry</td><td>Show (Single) · add/remove (Multi) · put in A or B (Compare)</td></tr>
 <tr><td><kbd>Shift</kbd>-click list entry</td><td>Add or remove the whole range, following the first-clicked scan (Multi)</td></tr>
 <tr><td>Hover / click landmark</td><td>Show name / pin or unpin its label on every body</td></tr>
+<tr><td>Click a body</td><td>Glide to a front view of that body</td></tr>
+<tr><td>Click empty space</td><td>Glide back to the view before the first body click</td></tr>
+<tr><td><kbd>R</kbd> · <kbd>N</kbd> · <kbd>L</kbd></td><td>Auto-rotate · name tags · landmarks on/off</td></tr>
 </table>
-<p>Keys are ignored while you are typing in the filter box.</p>
+<p>Keys are ignored while you are typing in a text field such as the filter box.</p>
 
 <h2 id="data">10. About the data</h2>
 <ul>
-<li><b>Scan names:</b> <code>csr0250a</code> is US/Italy subject 250, pose <i>a</i> (standing); <i>b</i> and <i>c</i> are seated poses. <code>nl_1001a</code> is Dutch subject 1001.</li>
+<li><b>Scan names:</b> <code>csr0250a</code> is US/Italy subject 250, pose <i>a</i> (standing); <i>b</i> and <i>c</i> are seated poses. <code>nl_1001a</code> is Dutch subject 1001. A trailing capital <code>C</code> (<code>csr0250aC</code>) marks a light (compressed) copy; the browser reads the subject and pose the same way.</li>
+<li><b>Dutch (<code>nl_</code>) GLBs</b> store the body mesh in millimetres while their landmarks are already in metres. The browser detects this and scales the mesh to metres, so Dutch and US/Italian scans display at the same size together.</li>
 <li><b>PLY scans</b> (<code>.ply.gz</code>): the original scanner meshes, about 150–190 thousand vertices with per-vertex color, in meters with Z pointing up. The browser stands them upright with the feet on the floor.</li>
 <li><b>Landmark files</b> (<code>.lnd</code>): columns 5–7 are x, y, z in millimeters in the scan's own coordinates. Landmarks marked missing (<code>-999</code>) are skipped.</li>
 <li><b>GLB files</b> (<code>gltf/*.glb</code>): converted from the PLY scans. Meters, rotated to the glTF convention (Y up), vertex colors and normals, with the landmarks stored inside as named points in a <code>landmarks</code> group. They open in Blender and other glTF viewers.</li>
@@ -172,12 +206,28 @@ ul{padding-left:22px}li{margin:3px 0}
 
 <h2 id="limits">11. Limits and troubleshooting</h2>
 <ul>
-<li><b>Memory:</b> each body uses about 10 MB once loaded. 200 bodies is about 60 million triangles and 1.5–2 GB, so rotating may get slow on smaller machines.</li>
+<li><b>Memory:</b> a full-resolution scan is 150–210 thousand vertices and about 400 thousand triangles, roughly 7–10 MB of graphics memory plus as much again in the page. A browser tab runs out of memory somewhere around 1,500–2,000 full-resolution bodies, and the buttons get slow well before that. Use the light scans (section 12) for big scenes.</li>
+<li><b>Buttons slow to respond during a big load:</b> each new body re-arranges the whole scene. Let the load finish or press <span class="btn">Stop</span> in the progress popup.</li>
+<li><b>Clicks don't add bodies:</b> look for the orange notice at the top of the 3D view: the Body limit may be reached, or the body may be hidden by a filter.</li>
 <li><b>"No matching landmark file":</b> add the folder that contains <code>landmarks/</code> (e.g. pick <code>a2</code> rather than <code>a2/scans</code>), or use the GLB version.</li>
 <li><b>A scan disappears from the list:</b> check the Show buttons, the filter box, and the sex and measurement filters.</li>
 <li><b>Odd gaps in Line layout:</b> stray scanner specks near the feet or stool count toward a body's width.</li>
 <li><b>Nothing appears:</b> the page needs an internet connection the first time, to load the three.js 3D library.</li>
 <li><b>Compressed GLBs</b> (meshopt + quantization, made with gltfpack) open in this browser and in three.js; some other glTF tools can't read meshopt-compressed files, so use the uncompressed GLBs from the <code>gltf</code> folders there.</li>
 </ul>
+<h2 id="light">12. Light (compressed) scan sets</h2>
+<p>The folders <code>CAESARall/data/gltflightA</code> (4,391 <i>a</i> scans) and <code>gltflightB</code> (3,977 <i>b</i> scans) hold light copies of the GLB scans, named with a trailing <code>C</code> (e.g. <code>csr0001aC.glb</code>). They were made with <code>gltfpack -si 0.1 -kn -ke -noq</code>: about 10% of the triangles, colors kept, all landmarks kept with their names and numbers, and plain (unquantized) coordinates. Each is about a tenth of the size and memory of the original, and at normal viewing distance they look almost the same.</p>
+<ul>
+<li>Load them with <span class="btn">load A</span> and <span class="btn">load B</span> (section 1), or with Add folder.</li>
+<li>Raise the <b>Body limit</b> slider before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).</li>
+<li>Use the original <code>gltf</code> folders when you need full detail, for example close-ups or tape measures on a single body.</li>
+</ul>
 <p style="margin-top:36px"><a href="index.html">← Back to the browser</a></p>
+<script>/* the artifact host does not serve .jpg files, so each screenshot is stored as a data-URL in a .txt file beside this page */
+document.querySelectorAll('img[data-b64]').forEach(im=>fetch(im.dataset.b64).then(r=>r.ok?r.text():Promise.reject(r.status)).then(t=>{
+  const b=atob(t.trim().replace(/^data:[^,]*,/,'')),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);
+  return createImageBitmap(new Blob([u],{type:'image/jpeg'}));}).then(bm=>{   // drawn on a canvas: the page may not show data: or blob: images directly
+  const c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;c.getContext('2d').drawImage(bm,0,0);
+  c.setAttribute('role','img');c.setAttribute('aria-label',im.alt);c.style.cssText='display:block;width:100%;height:auto;border:1px solid #2c3038;border-radius:8px';im.replaceWith(c);})
+  .catch(e=>{im.alt+=' (image could not be loaded)';console.warn('help image',im.dataset.b64,e);}));</script>
 </div></body></html>
