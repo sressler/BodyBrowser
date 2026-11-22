@@ -36,6 +36,8 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <a href="#start">1. Getting started</a>
 <a href="#list">2. The file list</a>
 <a href="#single">3. Single mode</a>
+<a href="#repair">3a. Repair (watertight copy)</a>
+<a href="#showall">3b. ShowAll landmark callouts</a>
 <a href="#multi">4. Multi mode</a>
 <a href="#compare">5. Compare mode</a>
 <a href="#view">6. Moving around and display options</a>
@@ -50,7 +52,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 
 <h2 id="start">1. Getting started</h2>
 <p><b>When the page opens</b> it loads the built-in sample set (60 scans) into <b>Multi</b> mode with the <b>Cube</b> layout and fog turned on. The bodies appear one after another as they download. Use <span class="btn">Clear scene</span> and <span class="btn">Clear</span> to start fresh with your own folders.</p>
-<figure><img data-b64="help/1_cube.txt" alt="The 60 sample scans arranged in a cube in Multi mode" loading="lazy"><figcaption>The 60 built-in sample scans in Multi mode, Cube layout, with fog.</figcaption></figure>
+<figure><img data-b64="help/1_cube.txt" alt="The 60 sample scans arranged in a cube in Multi mode" loading="lazy"><figcaption>The 60 built-in sample scans in Multi mode, Cube layout, with fog. <span class="btn">ShowAll</span> in the Landmarks row is greyed out here: it works in Single mode only.</figcaption></figure>
 <h3>Loading buttons</h3>
 <table>
 <tr><td><span class="btn p">Add folder…</span></td><td>Pick any folder (if you have the body files locally), e.g. a folder of scans or the folder that holds several of them. Every <code>.glb</code> in that folder <b>and all its subfolders</b> is added to the list; other files (<code>.ply.gz</code>, <code>.lnd</code>, <code>.txt</code>, hidden <code>._</code> files) are ignored. In Single mode the first new scan opens; in Multi mode use <span class="btn">Add all shown</span> to put the listed scans in the scene.</td></tr>
@@ -78,6 +80,28 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 
 <h2 id="single">3. Single mode</h2>
 <p>One body at a time. Click a list entry, or use <span class="btn">◀ Prev</span> <span class="btn">Next ▶</span> or <kbd>↑</kbd> <kbd>↓</kbd> to step through the list. The header shows vertex and triangle counts, the scan height, the subject's sex and the values of the three selected measurements.</p>
+
+<h3 id="repair">3a. Repair (watertight copy)</h3>
+<p><span class="btn">Repair</span> (next to <span class="btn">Download 1st selected</span>, Single mode only) makes a <b>watertight copy</b> of the body on screen, with every hole closed. The original scan and its file are not changed.</p>
+<ul>
+<li><b>Only the holes get new triangles.</b> Every original triangle, vertex position and colour is kept exactly as it was. Clean-up removes only what cannot be part of a closed surface: zero-area or duplicate triangles, extra triangles on an edge shared by more than two, and tiny floating fragments of scanner noise (fewer than 50 triangles).</li>
+<li><b>Small holes</b> are closed with the least-area set of triangles across the hole. <b>Large holes</b> (scalp, soles, under the arms, between arm and torso, the lap) get a smooth cap that continues the slope of the surrounding surface: domed where the body is rounded, flat where it is flat.</li>
+<li><b>Colour of the patches:</b> scan colour is often poor right at a hole's edge, so each patch takes its colour from good surface a few rows in from the hole (the median, ignoring dark edge pixels) and blends it smoothly across the patch.</li>
+<li>Landmarks are copied unchanged.</li>
+<li>The copy is added to the list with <b>R</b> on its name (e.g. <code>csr0250bCR</code>) as a GLB file. To save it, select it in Single mode and press <span class="btn">Download 1st selected</span>. It lives only in this browser tab until you download it.</li>
+<li>When the repair is done the browser switches to <b>Compare mode</b>: the original as <span class="tag" style="background:#3d7bff">A</span>, the repaired copy as <span class="tag" style="background:#e8862a">B</span>, no tints, both at 100% opacity, 100 cm apart.</li>
+<li>A notice reports how many holes were closed (small and large), triangles added, fragments removed, and whether the result is fully watertight with its enclosed volume in litres. A repair takes a few seconds.</li>
+</ul>
+
+<h3 id="showall">3b. ShowAll landmark callouts</h3>
+<p><span class="btn">ShowAll</span> (in the Landmarks row; always shown, but greyed out except in Single mode) labels <b>every landmark</b> of the body at once, in two columns beside it, each joined to its landmark by a callout line in the landmark's region colour.</p>
+<ul>
+<li>Landmarks on the left half of the body are labelled in the left column, the rest on the right. Each column keeps the landmarks' top-to-bottom order and spreads the labels just enough not to overlap.</li>
+<li>The <b>callout</b> slider (5–100 cm) sets how far the columns sit out from the side of the body. If the columns would not fit, the view backs off so they do.</li>
+<li>The columns follow the view as you rotate and zoom. Labels whose landmark is on the far side of the body are dimmed.</li>
+<li><b>Move a label by hand:</b> drag it anywhere. It then keeps that position relative to its landmark as you turn the view, and stays put when you switch scans. <b>Double-click</b> a moved label to put it back in its column.</li>
+<li>While ShowAll is on, single pinned labels are hidden so nothing is labelled twice. Turning landmarks off (<span class="btn">Show</span> or <kbd>L</kbd>) hides the callouts too. If the left column sits under the control panel, collapse the panel with its <span class="btn">–</span> button.</li>
+</ul>
 
 <h2 id="multi">4. Multi mode</h2>
 <p>Many bodies at once, up to the <b>Body limit</b>. Clicking a list entry <b>adds</b> that body to the scene; clicking it again <b>removes</b> it. Bodies in the scene are highlighted in the list. Every body is turned to face the front, using its landmarks, and has a name tag underneath.</p>
@@ -146,9 +170,11 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <li><b>Click</b> a sphere to pin a label that stays on screen and follows it as you move. Click it again to remove the label. Pinned landmarks are drawn larger.</li>
 <li>Pins go by landmark number, so pinning "11. Suprasternale" labels it on <i>every</i> body in the scene, and the pins stay when you switch scans.</li>
 <li>A pinned label is dimmed when its point is on the far side of a body (only with 12 or fewer bodies, to keep things fast).</li>
+<li>In Single mode, <span class="btn">ShowAll</span> labels every landmark at once with callout lines (see <a href="#showall">3b</a>).</li>
 <li><span class="btn">Show</span> (key <kbd>L</kbd>) hides or shows all spheres. <span class="btn">X-ray</span> draws them through the body. <span class="btn">Clear labels</span> removes all pins. The <b>size</b> slider changes the sphere size.</li>
 </ul>
 
+<figure><img data-b64="help/5_showall.txt" alt="A standing scan in Single mode with ShowAll: every landmark labelled in two columns with callout lines" loading="lazy"><figcaption>Single mode with <a href="#showall">ShowAll</a> (csr0625aC): all 73 landmarks labelled in two columns beside the body, callout distance 25 cm, panel collapsed.</figcaption></figure>
 <h2 id="tape">7a. Tape measures and definitions</h2>
 <p>Pick up to two measurements from the <b>Tape measures</b> menus in the left panel, above the measurement filters. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the <i>CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions</i> (Air Force Research Laboratory, 2002):</p>
 <ul>
@@ -190,6 +216,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <tr><td>Hover / click landmark</td><td>Show name / pin or unpin its label on every body</td></tr>
 <tr><td>Click a body</td><td>Glide to a front view of that body</td></tr>
 <tr><td>Click empty space</td><td>Glide back to the view before the first body click</td></tr>
+<tr><td>Drag / double-click a callout label</td><td>Move it by hand / put it back in its column (ShowAll, Single mode)</td></tr>
 <tr><td><kbd>R</kbd> · <kbd>N</kbd> · <kbd>L</kbd></td><td>Auto-rotate · name tags · landmarks on/off</td></tr>
 </table>
 <p>Keys are ignored while you are typing in a text field such as the filter box.</p>

@@ -70,6 +70,8 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
 - 1\. Getting started
 - 2\. The file list
 - 3\. Single mode
+  - 3a. Repair (watertight copy)
+  - 3b. ShowAll landmark callouts
 - 4\. Multi mode
 - 5\. Compare mode
 - 6\. Moving around and display options
@@ -87,7 +89,7 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
 
 ![The 60 sample scans arranged in a cube in Multi mode](docs/images/help_cube.jpg)
 
-*The 60 built-in sample scans in Multi mode, Cube layout, with fog.*
+*The 60 built-in sample scans in Multi mode, Cube layout, with fog. ShowAll in the Landmarks row is greyed out here: it works in Single mode only.*
 
 #### Loading buttons
 
@@ -120,6 +122,28 @@ Loads add up: run Add folder on `a2`, then `b2`, and all of them appear in one l
 ### 3. Single mode
 
 One body at a time. Click a list entry, or use ◀ Prev Next ▶ or `↑` `↓` to step through the list. The header shows vertex and triangle counts, the scan height, the subject's sex and the values of the three selected measurements.
+
+#### 3a. Repair (watertight copy)
+
+**Repair** (next to Download 1st selected, Single mode only) makes a **watertight copy** of the body on screen, with every hole closed. The original scan and its file are not changed.
+
+- **Only the holes get new triangles.** Every original triangle, vertex position and colour is kept exactly as it was. Clean-up removes only what cannot be part of a closed surface: zero-area or duplicate triangles, extra triangles on an edge shared by more than two, and tiny floating fragments of scanner noise (fewer than 50 triangles).
+- **Small holes** are closed with the least-area set of triangles across the hole. **Large holes** (scalp, soles, under the arms, between arm and torso, the lap) get a smooth cap that continues the slope of the surrounding surface: domed where the body is rounded, flat where it is flat.
+- **Colour of the patches:** scan colour is often poor right at a hole's edge, so each patch takes its colour from good surface a few rows in from the hole (the median, ignoring dark edge pixels) and blends it smoothly across the patch.
+- Landmarks are copied unchanged.
+- The copy is added to the list with **R** on its name (e.g. `csr0250bCR`) as a GLB file. To save it, select it in Single mode and press Download 1st selected. It lives only in this browser tab until you download it.
+- When the repair is done the browser switches to **Compare mode**: the original as A, the repaired copy as B, no tints, both at 100% opacity, 100 cm apart.
+- A notice reports how many holes were closed (small and large), triangles added, fragments removed, and whether the result is fully watertight with its enclosed volume in litres. A repair takes a few seconds.
+
+#### 3b. ShowAll landmark callouts
+
+**ShowAll** (in the Landmarks row; always shown, but greyed out except in Single mode) labels **every landmark** of the body at once, in two columns beside it, each joined to its landmark by a callout line in the landmark's region colour.
+
+- Landmarks on the left half of the body are labelled in the left column, the rest on the right. Each column keeps the landmarks' top-to-bottom order and spreads the labels just enough not to overlap.
+- The **callout** slider (5–100 cm) sets how far the columns sit out from the side of the body. If the columns would not fit, the view backs off so they do.
+- The columns follow the view as you rotate and zoom. Labels whose landmark is on the far side of the body are dimmed.
+- **Move a label by hand:** drag it anywhere. It then keeps that position relative to its landmark as you turn the view, and stays put when you switch scans. **Double-click** a moved label to put it back in its column.
+- While ShowAll is on, single pinned labels are hidden so nothing is labelled twice. Turning landmarks off (Show or `L`) hides the callouts too. If the left column sits under the control panel, collapse the panel with its – button.
 
 ### 4. Multi mode
 
@@ -207,7 +231,12 @@ Head & neck   Torso   Arms & hands   Legs & feet   Crotch (a computed point 
 - **Click** a sphere to pin a label that stays on screen and follows it as you move. Click it again to remove the label. Pinned landmarks are drawn larger.
 - Pins go by landmark number, so pinning "11. Suprasternale" labels it on *every* body in the scene, and the pins stay when you switch scans.
 - A pinned label is dimmed when its point is on the far side of a body (only with 12 or fewer bodies, to keep things fast).
+- In Single mode, ShowAll labels every landmark at once with callout lines (see 3b).
 - Show (key `L`) hides or shows all spheres. X-ray draws them through the body. Clear labels removes all pins. The **size** slider changes the sphere size.
+
+![A standing scan in Single mode with ShowAll: every landmark labelled in two columns with callout lines](docs/images/help_showall.jpg)
+
+*Single mode with ShowAll (csr0625aC): all 73 landmarks labelled in two columns beside the body, callout distance 25 cm, panel collapsed.*
 
 ### 7a. Tape measures and definitions
 
@@ -266,6 +295,7 @@ The measurement and sex data for all 4,459 subjects (all a, b and c folders) is 
 | Hover / click landmark | Show name / pin or unpin its label on every body |
 | Click a body | Glide to a front view of that body |
 | Click empty space | Glide back to the view before the first body click |
+| Drag / double-click a callout label | Move it by hand / put it back in its column (ShowAll, Single mode) |
 | `R` · `N` · `L` | Auto-rotate · name tags · landmarks on/off |
 
 Keys are ignored while you are typing in a text field such as the filter box.
