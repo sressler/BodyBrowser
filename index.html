@@ -99,7 +99,7 @@ body.sideMin #side{display:none}body.sideMin #main{left:0}
 <button id="bClearList" title="Remove all scans from the list and the scene">Clear</button>
 <button id="bSamples" title="60 compressed scans built into this page: 15 men and 15 women across the stature range, each standing (a) and seated (b)">Load sample set</button>
 <div style="margin-top:8px">Mode: <button class="mode on" data-m="single">Single</button><button class="mode" data-m="multi">Multi</button><button class="mode" data-m="compare">Compare</button>
-<span class="multi-only" hidden><br>Layout: <button class="arr on" data-a="wall">Wall</button><button class="arr" data-a="cube">Cube</button><button class="arr" data-a="line">Line</button>
+<span class="multi-only" hidden><br>Layout: <button class="arr on" data-a="wall">Wall</button><button class="arr" data-a="cube">Cube</button><button class="arr" data-a="line">Line</button><button class="arr" data-a="floor" title="All bodies standing on the floor in rows, one behind another">Floor</button>
 <span id="cubeOutRow" hidden><br>Cube outline: <label style="cursor:pointer"><input type="radio" name="cubeOut" value="on" checked style="display:inline;width:auto;margin:0 2px 0 0;vertical-align:-2px">On</label> <label style="cursor:pointer"><input type="radio" name="cubeOut" value="off" style="display:inline;width:auto;margin:0 2px 0 0;vertical-align:-2px">Off</label></span><br><span title="Most bodies that can be in the scene at once (each scan uses a lot of memory)" style="white-space:nowrap">Body limit <input type="range" id="bodyLim" min="10" max="9000" step="10" value="2000" style="display:inline-block;width:110px;margin:0 4px;vertical-align:middle"><b id="bodyLimV" style="color:#fff;font-variant-numeric:tabular-nums">2000</b></span><br><button id="bAddAll">Add all shown</button><button id="bClearScene">Clear scene</button></span></div>
 <div class="compare-only" hidden>
 <div style="margin-top:6px">Position: <button class="carr on" data-c="over">Superimposed</button><button class="carr" data-c="side">Side by side</button></div>
@@ -362,7 +362,7 @@ const ANIM_S=0.8;   // seconds for body and camera transitions
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 function layout(refit,animate=true){
   const prev=new Map(bodies.map(b=>[b,b.placed?{p:b.outer.position.clone(),r:b.outer.rotation.y}:null]));
-  const multi=mode==='multi',comp=mode==='compare';grid.visible=!multi;
+  const multi=mode==='multi',comp=mode==='compare';grid.visible=!multi||arrange==='floor';grid.scale.set(1,1,1);
   for(const b of bodies)b.outer.visible=!multi||inRange(b.file);
   const vis=multi?bodies.filter(b=>b.outer.visible):bodies;
   for(const b of vis){
@@ -394,6 +394,16 @@ function layout(refit,animate=true){
       const total=x-gap;vis.forEach((b,i)=>b.outer.position.set(xs[i]-total/2,0,0));
       const top=Math.max(...vis.map(b=>b.H));
       gridInfo={type:'line',w:total,h:top,d:Math.max(...vis.map(b=>b.depth)),cy:top/2,cols:n,rows:1,depth:1};
+    }else if(arrange==='floor'){
+      // rows of bodies standing on the floor, one row behind another; first body at the back left
+      const sx=cw,sz=Math.max(...vis.map(b=>b.depth))+0.5;
+      let cols=Math.max(1,Math.ceil(Math.sqrt(n*sz/sx*1.3)));cols=Math.min(cols,n);
+      const rows=Math.ceil(n/cols);
+      vis.forEach((b,i)=>{const r=Math.floor(i/cols),c=i%cols,inRow=Math.min(cols,n-r*cols);
+        b.outer.position.set((c-(inRow-1)/2)*sx,0,(r-(rows-1)/2)*sz);});
+      const top=Math.max(...vis.map(b=>b.H)),W2=cols*sx,D2=rows*sz;
+      const gs=(Math.max(W2,D2)+1)/3;grid.scale.set(gs,1,gs);   // floor grid under the whole layout
+      gridInfo={type:'floor',w:W2,h:top,d:D2,cy:top/2,cols,rows,depth:rows};
     }else if(arrange==='cube'){
       // k×k×k lattice with equal spacing on all three axes, so the whole arrangement is a cube
       const k=Math.ceil(Math.cbrt(n)-1e-9),sp=Math.max(cw,ch,Math.max(...vis.map(b=>b.depth))+0.4);
@@ -450,6 +460,11 @@ function fitNow(){
     const dir=new THREE.Vector3(0.55,0.42,1).normalize();
     const ty=F.cy+F.h*0.06;cam.position.set(dir.x*d,ty+dir.y*d,dir.z*d);ctl.target.set(0,ty,0);}
   else if(gridInfo&&gridInfo.type==='cover'){const H=F.h,a=0.5;cam.position.set(Math.sin(a)*H*2.1,H*.62,Math.cos(a)*H*2.1);ctl.target.set(0,H/2,0);}
+  else if(gridInfo&&gridInfo.type==='floor'){ // from the front and above, so the rows behind show over the ones in front
+    const vf=THREE.MathUtils.degToRad(cam.fov)/2,hf=Math.atan(Math.tan(vf)*cam.aspect);
+    const R=Math.hypot(F.w,F.h,F.d)/2,d=R/Math.sin(Math.min(vf,hf))*0.78;
+    const dir=new THREE.Vector3(0,0.62,1).normalize();
+    cam.position.set(0,F.cy+dir.y*d,dir.z*d);ctl.target.set(0,F.cy*0.6,0);}
   else if(gridInfo){const d=fitDistance(F.w,F.h*1.18),ty=F.cy+F.h*0.07;cam.position.set(0,ty,d);ctl.target.set(0,ty,0);}
   else{const a=F.facing+0.6,H=F.h;cam.position.set(Math.sin(a)*H*2.1,H*.65,Math.cos(a)*H*2.1);ctl.target.set(0,H/2,0);}
   ctl.update();
@@ -499,7 +514,7 @@ function updateHeader(){
     $('lmInfo').textContent=lmCount()?`${lmCount()} landmarks — click one to pin it on both bodies`:'';}
   else{const vb=visBodies(),tri=vb.reduce((s,b)=>s+b.nt,0);
     $('name').textContent=vb.length===bodies.length?`${bodies.length} bodies`:`${vb.length} of ${bodies.length} bodies shown (measurement filters)`;
-    $('stats').textContent=!gridInfo?'No bodies pass the measurement filters — widen a range or turn a filter off':`${(tri/1e6).toFixed(1)} M triangles · ${gridInfo.type==='cube'?`${gridInfo.cols}×${gridInfo.depth}×${gridInfo.rows} cube`:gridInfo.type==='line'?`line of ${gridInfo.cols}`:`${gridInfo.cols}×${gridInfo.rows} wall`} · click list entries to add/remove`;
+    $('stats').textContent=!gridInfo?'No bodies pass the measurement filters — widen a range or turn a filter off':`${(tri/1e6).toFixed(1)} M triangles · ${gridInfo.type==='cube'?`${gridInfo.cols}×${gridInfo.depth}×${gridInfo.rows} cube`:gridInfo.type==='floor'?`${gridInfo.cols}×${gridInfo.rows} floor`:gridInfo.type==='line'?`line of ${gridInfo.cols}`:`${gridInfo.cols}×${gridInfo.rows} wall`} · click list entries to add/remove`;
     $('lmInfo').textContent=`${lmCount()} landmarks — click one to pin that landmark on every body`;}
   $('legend').innerHTML=lmCount()?REGION.map(r=>`<span style="background:#${r[1].toString(16).padStart(6,'0')}"></span>${r[0]}`).join(' '):'';
   document.querySelectorAll('.single-only').forEach(e=>e.hidden=mode!=='single');

@@ -89,7 +89,7 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
 
 ![The 60 sample scans arranged in a cube in Multi mode](docs/images/help_cube.jpg)
 
-*The 60 built-in sample scans in Multi mode, Cube layout, with fog. ShowAll in the Landmarks row is greyed out here: it works in Single mode only.*
+*The 60 built-in sample scans in Multi mode, Cube layout, with fog. The Layout row has Wall, Cube, Line and Floor. ShowAll in the Landmarks row is greyed out here: it works in Single mode only.*
 
 #### Loading buttons
 
@@ -156,6 +156,11 @@ Many bodies at once, up to the **Body limit**. Clicking a list entry **adds** th
 | Wall | A grid of rows stacked upward and columns side by side, starting top-left. The number of columns follows the window's shape. |
 | Cube | A 3D lattice with equal spacing in all three directions (27 bodies → 3×3×3). The camera starts at a three-quarter view from above. Fly inside with WASD. **Cube outline: On / Off** shows or hides a gray wireframe of the cube the bodies sit in. Fog helps show depth here. |
 | Line | One horizontal row. Each body gets exactly its own width plus a 15 cm gap, so neighbors never touch. |
+| Floor | All bodies standing on the floor in rows, one row behind another (60 bodies → 10×6), first body at the back left. A floor grid is drawn under the whole layout, and the camera starts in front and above so the rows behind show over the ones in front. Fog helps show depth here. |
+
+![The 60 sample scans standing in rows on the floor in Multi mode](docs/images/help_floor.jpg)
+
+*The 60 built-in sample scans in the Floor layout (10×6), with fog: rows one behind another, first body at the back left.*
 
 - Add all shown adds every scan currently in the list (after filters). Use the filters first to choose a group.
 - Clear scene removes all bodies but keeps the list.
