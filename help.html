@@ -40,6 +40,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <a href="#showall">3b. ShowAll landmark callouts</a>
 <a href="#multi">4. Multi mode</a>
 <a href="#compare">5. Compare mode</a>
+<a href="#ranger">5a. Ranger mode and range sliders</a>
 <a href="#view">6. Moving around and display options</a>
 <a href="#landmarks">7. Landmarks</a>
 <a href="#tape">7a. Tape measures and definitions</a>
@@ -52,12 +53,12 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 
 <h2 id="start">1. Getting started</h2>
 <p><b>When the page opens</b> it loads the built-in sample set (60 scans) into <b>Multi</b> mode with the <b>Cube</b> layout and fog turned on. The bodies appear one after another as they download. Use <span class="btn">Clear scene</span> and <span class="btn">Clear</span> to start fresh with your own folders.</p>
-<figure><img data-b64="help/1_cube.txt" alt="The 60 sample scans arranged in a cube in Multi mode" loading="lazy"><figcaption>The 60 built-in sample scans in Multi mode, Cube layout, with fog. The Layout row has Wall, Cube, Line and Floor. <span class="btn">ShowAll</span> in the Landmarks row is greyed out here: it works in Single mode only.</figcaption></figure>
+<figure><img data-b64="help/1_cube.txt" alt="The 60 sample scans arranged in a cube in Multi mode" loading="lazy"><figcaption>The 60 built-in sample scans in Multi mode, Cube layout, with fog. The Mode row has Single, Multi, Compare and Ranger; the Layout row has Wall, Cube, Line and Floor. <span class="btn">ShowAll</span> in the Landmarks row is greyed out here: it works in Single mode only.</figcaption></figure>
 <h3>Loading buttons</h3>
 <table>
 <tr><td><span class="btn p">Add folder…</span></td><td>Pick any folder (if you have the body files locally), e.g. a folder of scans or the folder that holds several of them. Every <code>.glb</code> in that folder <b>and all its subfolders</b> is added to the list; other files (<code>.ply.gz</code>, <code>.lnd</code>, <code>.txt</code>, hidden <code>._</code> files) are ignored. In Single mode the first new scan opens; in Multi mode use <span class="btn">Add all shown</span> to put the listed scans in the scene.</td></tr>
-<tr><td><span class="btn">load A</span></td><td>If you have the body files locally, pick the <code>gltflightA</code> folder (or the folder that holds it). Loads every light <i>a</i> scan into the scene in Multi mode, up to the Body limit, with a progress popup (count, progress bar, time left, <span class="btn">Stop</span>). Names and landmarks are switched off first to keep large scenes fast; turn them back on with <kbd>N</kbd> and <kbd>L</kbd>. See section 12.</td></tr>
-<tr><td><span class="btn">load B</span></td><td>The same for the <code>gltflightB</code> folder (the light <i>b</i> scans). Run load A then load B to have both collections in one scene.</td></tr>
+<tr><td><span class="btn">load A</span></td><td>If you have the body files locally, loads every light <i>a</i> scan from the <code>gltflightA</code> folder into the scene in Multi mode. Only that folder is read. The first time, choose <code>gltflightA</code> in the dialog (choosing <code>data</code> or <code>CAESARall</code> also works: the page goes straight to <code>gltflightA</code> inside it). In Chrome and Edge the folder is then remembered, so later clicks load from it directly (the browser may ask once per visit to allow reading it); <kbd>Shift</kbd>-click load A to choose a different folder. In Safari, or when the page is shown inside another site's frame, the dialog opens every time: pick <code>gltflightA</code> itself. The Body limit is raised automatically so the whole folder fits (up to 9,000). A progress popup shows the GLB files found while the folder is read, then the count, file name, progress bar, loaded and failed counts, time elapsed and left, and <span class="btn">Stop</span>. Names and landmarks are switched off first to keep large scenes fast; turn them back on with <kbd>N</kbd> and <kbd>L</kbd>. See section 12.</td></tr>
+<tr><td><span class="btn">load B</span></td><td>The same for the <code>gltflightB</code> folder (the light <i>b</i> scans), remembered separately. Run load A then load B to have both collections in one scene.</td></tr>
 <tr><td><span class="btn">Add files…</span></td><td>Add individual <code>.glb</code>, <code>.ply.gz</code> or <code>.lnd</code> files. You can also drag files onto the 3D view.</td></tr>
 <tr><td><span class="btn">Clear</span></td><td>Empty the list and remove every body from the scene.</td></tr>
 <tr><td><span class="btn">Load sample set</span></td><td>Add the 60 built-in scans to the list and load them into the scene (in Single mode, open the first).</td></tr>
@@ -145,6 +146,26 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 </ul>
 <figure><img data-b64="help/4_compare.txt" alt="Two seated scans side by side in Compare mode" loading="lazy"><figcaption>Compare mode: smallest and largest chest in the B set (csr1496bC and csr0633bC), tints off, both at 100% opacity, side by side 100 cm apart.</figcaption></figure>
 
+<h2 id="ranger">5a. Ranger mode and range sliders</h2>
+<p><span class="btn">Ranger</span> (in the Mode row) shows <b>one body at a time</b> and cycles through every scan that falls inside two range sliders drawn in the 3D view. Use it to watch how bodies change across a band of sizes.</p>
+<figure><img data-b64="help/7_ranger.txt" alt="Ranger mode: one standing body, the Weight slider along the bottom, the Stature slider on the right and the Ranger bar with Cycling On" loading="lazy"><figcaption>Ranger mode with Weight narrowed to 152–235 lb (horizontal) and Stature to 65.7–75.6″ (vertical): 28 of the 60 sample scans are in range, and cycling is on, showing number 3 (csr0252aC).</figcaption></figure>
+<h3>The two range sliders</h3>
+<ul>
+<li>A <b>horizontal</b> slider along the bottom of the 3D view and a <b>vertical</b> slider on the right edge (largest value at the top). They appear only in Ranger mode.</li>
+<li>Each has a <b>dropdown</b> to choose any of the 45 measurements. The defaults are <b>Weight</b> (horizontal) and <b>Stature</b> (vertical). Choosing a measurement resets that slider to its full range.</li>
+<li>Drag the two circles to set the minimum and maximum; values show in inches and cm (pounds and kg for weight). Clicking the bar moves the nearer circle there. <span class="btn">All</span> resets to the full range. The slider's name turns blue while its range is narrowed.</li>
+<li>A scan must fall inside both ranges (and pass the filters in the side panel) to be listed and shown. Scans missing a value for a narrowed measurement are hidden.</li>
+<li>The sliders filter in Ranger mode only. They keep their settings when you leave Ranger and apply again when you come back.</li>
+</ul>
+<h3>Cycling</h3>
+<ul>
+<li>The Ranger bar above the horizontal slider has <span class="btn">Cycling: On</span> / <span class="btn">Cycling: Off</span> to start or pause cycling, a menu for how long each body is shown (0.01 s to 10 s; default 2 s), and the position in the list, e.g. “5 of 20 · csr0561aC”. At the end of the list it starts again from the first.</li>
+<li>The time is counted after each body has loaded, so at the shortest settings the loading time sets the pace.</li>
+<li>Changing a slider takes effect at the next step. <span class="btn">◀ Prev</span> <span class="btn">Next ▶</span> and <kbd>↑</kbd> <kbd>↓</kbd> still step by hand.</li>
+<li>Every body is placed so that its <b>Lt. Calcaneous, Post.</b> landmark (the back of the left heel, landmark 71) sits at the same spot on the floor, so posture and size differences show against a fixed reference. Bodies keep their scanner orientation and stand on the floor; a scan without that landmark is centred instead.</li>
+<li>Switching to Single, Multi or Compare stops cycling and hides the sliders and the Ranger bar.</li>
+</ul>
+
 <h2 id="view">6. Moving around and display options</h2>
 <h3>Mouse</h3>
 <ul><li>Drag to rotate · scroll to zoom · right-drag (or two-finger drag) to pan.</li></ul>
@@ -212,8 +233,9 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <tr><th>Input</th><th>Action</th></tr>
 <tr><td>Drag · scroll · right-drag</td><td>Rotate · zoom · pan</td></tr>
 <tr><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> · <kbd>Q</kbd><kbd>E</kbd> · <kbd>Shift</kbd></td><td>Fly · down/up · faster</td></tr>
-<tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Previous / next scan (Single mode)</td></tr>
-<tr><td>Click list entry</td><td>Show (Single) · add/remove (Multi) · put in A or B (Compare)</td></tr>
+<tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Previous / next scan (Single and Ranger modes)</td></tr>
+<tr><td>Click list entry</td><td>Show (Single, Ranger) · add/remove (Multi) · put in A or B (Compare)</td></tr>
+<tr><td>Drag the circles of the in-view sliders</td><td>Set the two measurement ranges (Ranger)</td></tr>
 <tr><td><kbd>Shift</kbd>-click list entry</td><td>Add or remove the whole range, following the first-clicked scan (Multi)</td></tr>
 <tr><td>Hover / click landmark</td><td>Show name / pin or unpin its label on every body</td></tr>
 <tr><td>Click a body</td><td>Glide to a front view of that body</td></tr>
@@ -248,7 +270,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <p>If you have the body files locally, the folders <code>gltflightA</code> (4,391 <i>a</i> scans) and <code>gltflightB</code> (3,977 <i>b</i> scans) hold light copies of the GLB scans, named with a trailing <code>C</code> (e.g. <code>csr0001aC.glb</code>). They were made with <code>gltfpack -si 0.1 -kn -ke -noq</code>: about 10% of the triangles, colors kept, all landmarks kept with their names and numbers, and plain (unquantized) coordinates. Each is about a tenth of the size and memory of the original, and at normal viewing distance they look almost the same.</p>
 <ul>
 <li>Load them with <span class="btn">load A</span> and <span class="btn">load B</span> (section 1), or with Add folder.</li>
-<li>Raise the <b>Body limit</b> slider before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).</li>
+<li>load A and load B raise the <b>Body limit</b> slider as needed. With Add folder, raise it yourself before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).</li>
 <li>Use the original <code>gltf</code> folders when you need full detail, for example close-ups or tape measures on a single body.</li>
 </ul>
 <p style="margin-top:36px"><a href="index.html">← Back to the browser</a></p>

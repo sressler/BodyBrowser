@@ -1,6 +1,6 @@
 # BodyBrowser: CAESAR™ Scan Browser
 
-A web browser for 3D body scans from the CAESAR™ anthropometric survey (US, Italy and the Netherlands). It shows the scans with their anatomical landmarks, filters subjects by measurement and sex, lays out hundreds or thousands of bodies at once (up to a Body limit you set), flies the camera to any body you click, draws CAESAR tape measures on the scans, and compares two bodies side by side or superimposed. It runs entirely in the browser, uses three.js, and reads scans from your own disk. Nothing is uploaded.
+A web browser for 3D body scans from the CAESAR™ anthropometric survey (US, Italy and the Netherlands). It shows the scans with their anatomical landmarks, filters subjects by measurement and sex, lays out hundreds or thousands of bodies at once (up to a Body limit you set), flies the camera to any body you click, draws CAESAR tape measures on the scans, compares two bodies side by side or superimposed, and in Ranger mode cycles one body at a time through everyone inside two measurement ranges. It runs entirely in the browser, uses three.js, and reads scans from your own disk. Nothing is uploaded.
 
 By Sandy Ressler.
 
@@ -15,7 +15,7 @@ By Sandy Ressler.
 | `index.html` | The browser: one self-contained page. The measurement and sex tables for all 4,459 subjects are built in. |
 | `help.html` | The help page linked from the browser. |
 | `samples/*.txt` | The built-in sample set: 60 light scans (30 subjects, each with a standing *a* and a seated *b* scan; names end in `C`, e.g. `csr0250aC`). Each is a GLB simplified to about 10% of the triangles, stored as base64 text because the Claude artifact host does not serve `.glb` files. |
-| `help/*.txt` | The four screenshots shown on the help page, stored as base64 text for the same reason. |
+| `help/*.txt` | The seven screenshots shown on the help page, stored as base64 text for the same reason. |
 | `tools/ply2glb.py` | Converts one CAESAR PLY scan (`.ply` or `.ply.gz`), plus its `.lnd` landmark file, to a single GLB with vertex colors, normals and landmarks as named nodes. |
 | `tools/convert_folders.py` | Batch, resumable, time-boxed conversion of whole CAESAR data folders (`a1`–`a21`, `b1`–`b21`, …) into each folder's `gltf/` subfolder. |
 | `docs/images/` | Screenshots used in this README (and copies of the help-page screenshots). |
@@ -74,6 +74,7 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
   - 3b. ShowAll landmark callouts
 - 4\. Multi mode
 - 5\. Compare mode
+  - 5a. Ranger mode and range sliders
 - 6\. Moving around and display options
 - 7\. Landmarks
 - 7a\. Tape measures and definitions
@@ -89,15 +90,15 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
 
 ![The 60 sample scans arranged in a cube in Multi mode](docs/images/help_cube.jpg)
 
-*The 60 built-in sample scans in Multi mode, Cube layout, with fog. The Layout row has Wall, Cube, Line and Floor. ShowAll in the Landmarks row is greyed out here: it works in Single mode only.*
+*The 60 built-in sample scans in Multi mode, Cube layout, with fog. The Mode row has Single, Multi, Compare and Ranger; the Layout row has Wall, Cube, Line and Floor. ShowAll in the Landmarks row is greyed out here: it works in Single mode only.*
 
 #### Loading buttons
 
 |  |  |
 | --- | --- |
 | Add folder… | Pick any folder (if you have the body files locally), e.g. a folder of scans or the folder that holds several of them. Every `.glb` in that folder **and all its subfolders** is added to the list; other files (`.ply.gz`, `.lnd`, `.txt`, hidden `._` files) are ignored. In Single mode the first new scan opens; in Multi mode use Add all shown to put the listed scans in the scene. |
-| load A | If you have the body files locally, pick the `gltflightA` folder (or the folder that holds it). Loads every light *a* scan into the scene in Multi mode, up to the Body limit, with a progress popup (count, progress bar, time left, Stop). Names and landmarks are switched off first to keep large scenes fast; turn them back on with `N` and `L`. See section 12. |
-| load B | The same for the `gltflightB` folder (the light *b* scans). Run load A then load B to have both collections in one scene. |
+| load A | If you have the body files locally, loads every light *a* scan from the `gltflightA` folder into the scene in Multi mode. Only that folder is read. The first time, choose `gltflightA` in the dialog (choosing `data` or `CAESARall` also works: the page goes straight to `gltflightA` inside it). In Chrome and Edge the folder is then remembered, so later clicks load from it directly (the browser may ask once per visit to allow reading it); `Shift`-click load A to choose a different folder. In Safari, or when the page is shown inside another site's frame, the dialog opens every time: pick `gltflightA` itself. The Body limit is raised automatically so the whole folder fits (up to 9,000). A progress popup shows the GLB files found while the folder is read, then the count, file name, progress bar, loaded and failed counts, time elapsed and left, and Stop. Names and landmarks are switched off first to keep large scenes fast; turn them back on with `N` and `L`. See section 12. |
+| load B | The same for the `gltflightB` folder (the light *b* scans), remembered separately. Run load A then load B to have both collections in one scene. |
 | Add files… | Add individual `.glb`, `.ply.gz` or `.lnd` files. You can also drag files onto the 3D view. |
 | Clear | Empty the list and remove every body from the scene. |
 | Load sample set | Add the 60 built-in scans to the list and load them into the scene (in Single mode, open the first). |
@@ -199,6 +200,30 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 
 *Compare mode: smallest and largest chest in the B set (csr1496bC and csr0633bC), tints off, both at 100% opacity, side by side 100 cm apart.*
 
+#### 5a. Ranger mode and range sliders
+
+**Ranger** (in the Mode row) shows **one body at a time** and cycles through every scan that falls inside two range sliders drawn in the 3D view. Use it to watch how bodies change across a band of sizes.
+
+![Ranger mode: one standing body, the Weight slider along the bottom, the Stature slider on the right and the Ranger bar with Cycling On](docs/images/help_ranger.jpg)
+
+*Ranger mode with Weight narrowed to 152–235 lb (horizontal) and Stature to 65.7–75.6″ (vertical): 28 of the 60 sample scans are in range, and cycling is on, showing number 3 (csr0252aC).*
+
+**The two range sliders**
+
+- A **horizontal** slider along the bottom of the 3D view and a **vertical** slider on the right edge (largest value at the top). They appear only in Ranger mode.
+- Each has a **dropdown** to choose any of the 45 measurements. The defaults are **Weight** (horizontal) and **Stature** (vertical). Choosing a measurement resets that slider to its full range.
+- Drag the two circles to set the minimum and maximum; values show in inches and cm (pounds and kg for weight). Clicking the bar moves the nearer circle there. All resets to the full range. The slider's name turns blue while its range is narrowed.
+- A scan must fall inside both ranges (and pass the filters in the side panel) to be listed and shown. Scans missing a value for a narrowed measurement are hidden.
+- The sliders filter in Ranger mode only. They keep their settings when you leave Ranger and apply again when you come back.
+
+**Cycling**
+
+- The Ranger bar above the horizontal slider has Cycling: On / Cycling: Off to start or pause cycling, a menu for how long each body is shown (0.01 s to 10 s; default 2 s), and the position in the list, e.g. “5 of 20 · csr0561aC”. At the end of the list it starts again from the first.
+- The time is counted after each body has loaded, so at the shortest settings the loading time sets the pace.
+- Changing a slider takes effect at the next step. ◀ Prev, Next ▶ and `↑` `↓` still step by hand.
+- Every body is placed so that its **Lt. Calcaneous, Post.** landmark (the back of the left heel, landmark 71) sits at the same spot on the floor, so posture and size differences show against a fixed reference. Bodies keep their scanner orientation and stand on the floor; a scan without that landmark is centred instead.
+- Switching to Single, Multi or Compare stops cycling and hides the sliders and the Ranger bar.
+
 ### 6. Moving around and display options
 
 #### Mouse
@@ -294,8 +319,9 @@ The measurement and sex data for all 4,459 subjects (all a, b and c folders) is 
 | --- | --- |
 | Drag · scroll · right-drag | Rotate · zoom · pan |
 | `W``A``S``D` · `Q``E` · `Shift` | Fly · down/up · faster |
-| `↑` `↓` | Previous / next scan (Single mode) |
-| Click list entry | Show (Single) · add/remove (Multi) · put in A or B (Compare) |
+| `↑` `↓` | Previous / next scan (Single and Ranger modes) |
+| Click list entry | Show (Single, Ranger) · add/remove (Multi) · put in A or B (Compare) |
+| Drag the circles of the in-view sliders | Set the two measurement ranges (Ranger) |
 | `Shift`-click list entry | Add or remove the whole range, following the first-clicked scan (Multi) |
 | Hover / click landmark | Show name / pin or unpin its label on every body |
 | Click a body | Glide to a front view of that body |
@@ -330,5 +356,5 @@ Keys are ignored while you are typing in a text field such as the filter box.
 If you have the body files locally, the folders `gltflightA` (4,391 *a* scans) and `gltflightB` (3,977 *b* scans) hold light copies of the GLB scans, named with a trailing `C` (e.g. `csr0001aC.glb`). They were made with `gltfpack -si 0.1 -kn -ke -noq`: about 10% of the triangles, colors kept, all landmarks kept with their names and numbers, and plain (unquantized) coordinates. Each is about a tenth of the size and memory of the original, and at normal viewing distance they look almost the same.
 
 - Load them with load A and load B (section 1), or with Add folder.
-- Raise the **Body limit** slider before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).
+- load A and load B raise the **Body limit** slider as needed. With Add folder, raise it yourself before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).
 - Use the original `gltf` folders when you need full detail, for example close-ups or tape measures on a single body.
