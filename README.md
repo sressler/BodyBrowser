@@ -331,7 +331,7 @@ Keys are ignored while you are typing in a text field such as the filter box.
 
 ### 10. About the data
 
-- **Scan names:** `csr0250a` is US/Italy subject 250, pose *a* (standing); *b* and *c* are seated poses. `nl_1001a` is Dutch subject 1001. A trailing capital `C` (`csr0250aC`) marks a light (compressed) copy; the browser reads the subject and pose the same way.
+- **Scan names:** `csr0250a` is US/Italy subject 250, pose *a* (standing); *b* and *c* are seated poses. `nl_1001a` is Dutch subject 1001. A trailing capital `C` (`csr0250aC`) of `CC` marks a light (compressed) copy; the browser reads the subject and pose the same way.
 - **Dutch (`nl_`) GLBs** store the body mesh in millimetres while their landmarks are already in metres. The browser detects this and scales the mesh to metres, so Dutch and US/Italian scans display at the same size together.
 - **PLY scans** (`.ply.gz`): the original scanner meshes, about 150–190 thousand vertices with per-vertex color, in meters with Z pointing up. The browser stands them upright with the feet on the floor.
 - **Landmark files** (`.lnd`): columns 5–7 are x, y, z in millimeters in the scan's own coordinates. Landmarks marked missing (`-999`) are skipped.
