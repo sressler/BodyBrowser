@@ -58,7 +58,7 @@ find a*/gltf -maxdepth 1 -name '*.glb' ! -name '.*' | xargs -P 8 -I{} sh -c \
   'n=$(basename "{}" .glb); [ -s "gltflightA/${n}C.glb" ] || gltfpack -i "{}" -o "gltflightA/${n}C.glb" -si 0.1 -kn -ke -noq'
 ```
 
-Do the same for the `b*` folders into `gltflightB`. The browser's **load A** and **load B** buttons read these two folders. The built-in sample files are such light copies.
+Do the same for the `b*` folders into `gltflightB`. Load them in the browser with **Add folder…**. The built-in sample files are such light copies.
 
 
 ## Help
@@ -97,8 +97,6 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
 |  |  |
 | --- | --- |
 | Add folder… | Pick any folder (if you have the body files locally), e.g. a folder of scans or the folder that holds several of them. Every `.glb` in that folder **and all its subfolders** is added to the list; other files (`.ply.gz`, `.lnd`, `.txt`, hidden `._` files) are ignored. In Single mode the first new scan opens; in Multi mode use Add all shown to put the listed scans in the scene. |
-| load A | If you have the body files locally, loads every light *a* scan from the `gltflightA` folder into the scene in Multi mode. Only that folder is read. The first time, choose `gltflightA` in the dialog (choosing `data` or `CAESARall` also works: the page goes straight to `gltflightA` inside it). In Chrome and Edge the folder is then remembered, so later clicks load from it directly (the browser may ask once per visit to allow reading it); `Shift`-click load A to choose a different folder. In Safari, or when the page is shown inside another site's frame, the dialog opens every time: pick `gltflightA` itself. The Body limit is raised automatically so the whole folder fits (up to 9,000). A progress popup shows the GLB files found while the folder is read, then the count, file name, progress bar, loaded and failed counts, time elapsed and left, and Stop. Names and landmarks are switched off first to keep large scenes fast; turn them back on with `N` and `L`. See section 12. |
-| load B | The same for the `gltflightB` folder (the light *b* scans), remembered separately. Run load A then load B to have both collections in one scene. |
 | Add files… | Add individual `.glb`, `.ply.gz` or `.lnd` files. You can also drag files onto the 3D view. |
 | Clear | Empty the list and remove every body from the scene. |
 | Load sample set | Add the 60 built-in scans to the list and load them into the scene (in Single mode, open the first). |
@@ -355,6 +353,6 @@ Keys are ignored while you are typing in a text field such as the filter box.
 
 If you have the body files locally, the folders `gltflightA` (4,391 *a* scans) and `gltflightB` (3,977 *b* scans) hold light copies of the GLB scans, named with a trailing `C` (e.g. `csr0001aC.glb`). They were made with `gltfpack -si 0.1 -kn -ke -noq`: about 10% of the triangles, colors kept, all landmarks kept with their names and numbers, and plain (unquantized) coordinates. Each is about a tenth of the size and memory of the original, and at normal viewing distance they look almost the same.
 
-- Load them with load A and load B (section 1), or with Add folder.
-- load A and load B raise the **Body limit** slider as needed. With Add folder, raise it yourself before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).
+- Load them with Add folder… (section 1). Names ending in `C` or `CC` are recognized, so their measurements and sex are matched.
+- Raise the **Body limit** slider before loading to have all of a set in the scene (e.g. 4,500 for all A, 9,000 for A and B).
 - Use the original `gltf` folders when you need full detail, for example close-ups or tape measures on a single body.
