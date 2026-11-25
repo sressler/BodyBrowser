@@ -222,6 +222,14 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 - Every body is placed so that its **Lt. Calcaneous, Post.** landmark (the back of the left heel, landmark 71) sits at the same spot on the floor, so posture and size differences show against a fixed reference. Bodies keep their scanner orientation and stand on the floor; a scan without that landmark is centred instead.
 - Switching to Single, Multi or Compare stops cycling and hides the sliders and the Ranger bar.
 
+**Flipper**
+
+- Flipper, next to the Cycling button, lets you flip through the scans in range by swiping across the 3D view with the mouse, a trackpad or a finger (iPhone and iPad included). Turning it on turns cycling off, and turning cycling on turns the Flipper off.
+- Swipe **left or right** to go through the scans in order of the **horizontal** slider's measurement (Weight by default; right = larger). Swipe **up or down** to go through them in order of the **vertical** slider's measurement (Stature by default; up = larger). The first clear movement of each swipe decides which.
+- While you drag, the bodies follow your movement, about one body for every 40 pixels. Let go during a fast swipe and the flipping carries on at that speed, then slows down to a stop; the faster the swipe, the faster and further it flips. Pause before letting go to stop exactly where you are. A new touch stops it at once.
+- The Ranger bar shows the position in that order and the scan's value, e.g. “12 of 28 by Weight 182 lb · 83 kg · csr0561aC”. It stops at the first and last scan.
+- While the Flipper is on, dragging no longer turns the camera; the scroll wheel or pinch still zooms. Turn the Flipper off to orbit again. When bodies are shown faster than they can be loaded, the in-between ones are skipped.
+
 ### 6. Moving around and display options
 
 #### Mouse

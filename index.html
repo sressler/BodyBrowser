@@ -1239,7 +1239,7 @@ function setMode(m){
     if(!ranger){setModeBase('single');ranger=true;$('rangerBar').hidden=false;if(bodies.length)layout(false);showSceneSliders();setCycle(true);
       cycInfoT=setInterval(updCycInfo,400);}
   }else{
-    const was=ranger;ranger=false;setCycle(false,true);$('rangerBar').hidden=true;clearInterval(cycInfoT);
+    const was=ranger;if(flipOn)setFlip(false);ranger=false;setCycle(false,true);$('rangerBar').hidden=true;clearInterval(cycInfoT);
     if(m!==mode)setModeBase(m);else if(was&&bodies.length)layout(false);
   }
   document.querySelectorAll('.mode').forEach(x=>x.classList.toggle('on',x.dataset.m===(ranger?'ranger':mode)));
@@ -1253,6 +1253,7 @@ function showSceneSliders(){   // the in-view range sliders exist only in Ranger
   if(rangerShown!==ranger){rangerShown=ranger;if(typeof applyMeasFilter==='function'&&MEAS.length)applyMeasFilter();}
 }
 function setCycle(on,keepFlag){
+  if(on&&!keepFlag&&flipOn)setFlip(false);
   if(!keepFlag)cycOn=on;clearTimeout(cycTimer);cycTimer=null;
   const b=$('bCycle');b.textContent=cycOn?'Cycling: On':'Cycling: Off';b.classList.toggle('on',cycOn);
   if(on&&ranger){if(cur<0&&shown.length)load(0).then(schedCycle);else schedCycle();}
@@ -1264,14 +1265,84 @@ async function stepCycle(){
   schedCycle();
 }
 function updCycInfo(){if(!ranger)return;const f=shown[cur];
+  if(flipOn&&shown.length){const hW=sceneSl.sslW,hS=sceneSl.sslS,nm=s=>s&&s.mi>=0?shortName(MEAS[s.mi]):'?';
+    let t=`swipe ←→ ${nm(hW)} · ↑↓ ${nm(hS)}`;
+    if(f&&flip.L){const k=flip.L.findIndex(o=>o.f===f),mi=flip.mi,v=measOf(f,mi);
+      t=`${k>=0?k+1:'–'} of ${flip.L.length} by ${shortName(MEAS[mi])}${v!==null?' '+fmtV(mi,v):''} · ${showName(f.name)}`;}
+    else if(f)t+=` · ${showName(f.name)}`;
+    $('cycInfo').textContent=t;return;}
   $('cycInfo').textContent=shown.length?`${cur>=0?cur+1:'–'} of ${shown.length}${f?' · '+showName(f.name):''}`:'no scans in range — widen the sliders';}
 (()=>{const d=document.createElement('div');d.id='rangerBar';d.hidden=true;
-  d.innerHTML=`<b>Ranger</b><button id="bCycle" class="on" title="Turn cycling through the scans in range on or off">Cycling: On</button>every <select id="cycSec">${[0.01,0.1,0.5,1,2,3,5,10].map(s=>`<option value="${s}"${s===2?' selected':''}>${s} s</option>`).join('')}</select><span id="cycInfo"></span>`;
+  d.innerHTML=`<b>Ranger</b><button id="bCycle" class="on" title="Turn cycling through the scans in range on or off">Cycling: On</button><button id="bFlip" title="Flipper: swipe across the view to flip through the scans in range. Swipe left/right to go through them in order of the horizontal slider's measurement, up/down for the vertical slider's. The faster the swipe, the faster the flipping; it then slows to a stop.">Flipper</button>every <select id="cycSec">${[0.01,0.1,0.5,1,2,3,5,10].map(s=>`<option value="${s}"${s===2?' selected':''}>${s} s</option>`).join('')}</select><span id="cycInfo"></span>`;
   $('main').appendChild(d);
   ['pointerdown','wheel','click','dblclick'].forEach(ev=>d.addEventListener(ev,e=>e.stopPropagation()));
   $('bCycle').onclick=()=>setCycle(!cycOn);
+  $('bFlip').onclick=()=>setFlip(!flipOn);
   $('cycSec').onchange=()=>{if(cycOn)schedCycle();};
 })();
+
+// ---------- Ranger "Flipper": swipe across the 3D view to flip through the scans in range ----------
+// Left/right swipes go through the scans in order of the horizontal slider's measurement (right = larger),
+// up/down swipes in order of the vertical slider's (up = larger). While the finger/mouse is down the bodies
+// follow the drag; on release the flipping carries on at the release speed and slows down to a stop.
+let flipOn=false;
+const flip={axis:null,mi:-1,L:null,p:0,v:0,idx:-1,raf:0,drag:null,want:-1,busy:false};
+const FLIP_PX=40;          // pixels of drag per body
+const FLIP_FRICTION=1.5;   // the speed after release falls as e^(-1.5 t): about 78% less each second
+const FLIP_VMAX=40;        // bodies per second at most
+function flipOrder(axis){const s=axis==='h'?sceneSl.sslW:sceneSl.sslS,mi=s?s.mi:-1;
+  const L=shown.map(f=>({f,v:measOf(f,mi)})).filter(o=>o.v!==null)
+    .sort((a,b)=>a.v-b.v||baseName(a.f.name).localeCompare(baseName(b.f.name)));
+  return {mi,L};}
+function flipStop(){cancelAnimationFrame(flip.raf);flip.raf=0;flip.v=0;}
+function setFlip(on){
+  flipOn=!!on&&ranger;flipStop();flip.drag=null;
+  const b=$('bFlip');if(b){b.classList.toggle('on',flipOn);b.textContent=flipOn?'Flipper: On':'Flipper';}
+  ctl.enableRotate=ctl.enablePan=!flipOn;   // one-finger/mouse drags flip instead of orbiting; the wheel still zooms
+  if(flipOn&&cycOn)setCycle(false);
+  updCycInfo();
+}
+async function flipShow(k){   // show body k of the flipper order; only the newest request is loaded
+  const o=flip.L&&flip.L[k];if(!o)return;
+  flip.idx=k;flip.want=shown.indexOf(o.f);updCycInfo();
+  if(flip.busy||flip.want<0)return;
+  flip.busy=true;
+  try{let w;do{w=flip.want;if(w>=0&&w!==cur||!bodies.length)await load(w);else break;}while(w!==flip.want&&flipOn);}
+  finally{flip.busy=false;updCycInfo();}
+}
+function flipSetP(p){const n=flip.L.length;if(!n)return;
+  if(p<=0||p>=n-1){p=Math.max(0,Math.min(n-1,p));flip.v=0;}
+  flip.p=p;const k=Math.round(p);if(k!==flip.idx)flipShow(k);}
+function flipCoast(){   // after release: keep going at the release speed, slowing down
+  let last=performance.now();
+  const step=now=>{const dt=Math.min(0.05,(now-last)/1000);last=now;
+    flip.v*=Math.exp(-FLIP_FRICTION*dt);flipSetP(flip.p+flip.v*dt);
+    if(Math.abs(flip.v)<0.8||!flipOn){flip.raf=0;flip.v=0;return;}
+    flip.raf=requestAnimationFrame(step);};
+  flip.raf=requestAnimationFrame(step);}
+{const el=renderer.domElement;
+  el.addEventListener('pointerdown',e=>{if(!flipOn||!ranger||(e.pointerType==='mouse'&&e.button!==0))return;
+    if(flip.drag&&flip.drag.id!==e.pointerId){flip.drag=null;return;}   // a second finger: a pinch to zoom, not a swipe
+    flipStop();flip.drag={id:e.pointerId,x:e.clientX,y:e.clientY,axis:null,p0:0,hist:[]};});
+  el.addEventListener('pointermove',e=>{const d=flip.drag;if(!flipOn||!d||e.pointerId!==d.id)return;
+    const dx=e.clientX-d.x,dy=e.clientY-d.y;
+    if(!d.axis){if(Math.hypot(dx,dy)<8)return;   // the first clear movement decides the direction
+      d.axis=Math.abs(dx)>=Math.abs(dy)?'h':'v';
+      const o=flipOrder(d.axis);flip.axis=d.axis;flip.mi=o.mi;flip.L=o.L;
+      const k=flip.L.findIndex(q=>q.f===shown[cur]);flip.idx=k;flip.p=d.p0=k>=0?k:0;updCycInfo();
+      try{el.setPointerCapture(e.pointerId);}catch(_){}}
+    if(!flip.L||!flip.L.length)return;
+    const t=e.timeStamp,q=d.p0+(d.axis==='h'?dx:-dy)/FLIP_PX;
+    if(!d.t0)d.t0=t;d.hist.push([t,q]);while(d.hist.length>2&&t-d.hist[1][0]>150)d.hist.shift();   // about the last 0.15 s, for the release speed
+    flipSetP(q);});
+  const end=e=>{const d=flip.drag;if(!d||e.pointerId!==d.id)return;flip.drag=null;
+    if(!flipOn||!d.axis||!flip.L||!flip.L.length)return;
+    const h=d.hist,b=h[h.length-1],now=e.timeStamp,a=(b[0]-d.t0<400)?[d.t0,d.p0]:h[0];   // a quick flick: its whole length; otherwise the last 0.15 s
+    let v=(h.length&&b[0]>a[0]&&now-b[0]<150)?(b[1]-a[1])/((b[0]-a[0])/1000):0;   // holding still before letting go means no coasting
+    flip.v=Math.max(-FLIP_VMAX,Math.min(FLIP_VMAX,v));
+    if(Math.abs(flip.v)>=0.8)flipCoast();};
+  el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+}
 
 // ---------- built-in sample set (compressed GLBs stored beside this page in samples/) ----------
 const SAMPLES=[["csr0250aC.glb",787716],["csr0250bC.glb",696140],["csr0251aC.glb",622632],["csr0251bC.glb",523468],["csr0252aC.glb",607576],["csr0252bC.glb",505756],["csr0254aC.glb",569844],["csr0254bC.glb",488132],["csr0401aC.glb",690060],["csr0401bC.glb",563996],["csr0491aC.glb",654696],["csr0491bC.glb",554132],["csr0506aC.glb",702844],["csr0506bC.glb",597096],["csr0522aC.glb",589752],["csr0522bC.glb",475476],["csr0546aC.glb",604056],["csr0546bC.glb",508872],["csr0561aC.glb",680180],["csr0561bC.glb",587000],["csr0620aC.glb",724720],["csr0620bC.glb",595564],["csr0625aC.glb",519400],["csr0625bC.glb",433228],["csr0633aC.glb",835808],["csr0633bC.glb",703308],["csr1119aC.glb",653116],["csr1119bC.glb",519264],["csr1192aC.glb",721280],["csr1192bC.glb",637092],["csr1496aC.glb",484968],["csr1496bC.glb",404592],["csr1515aC.glb",740064],["csr1515bC.glb",642352],["csr1706aC.glb",582512],["csr1706bC.glb",492408],["csr1707aC.glb",663092],["csr1707bC.glb",537452],["csr1732aC.glb",554996],["csr1732bC.glb",446144],["csr1746aC.glb",711088],["csr1746bC.glb",591732],["csr1753aC.glb",641852],["csr1753bC.glb",526008],["csr1782aC.glb",587520],["csr1782bC.glb",462544],["csr1809aC.glb",557520],["csr1809bC.glb",449468],["csr1851aC.glb",728840],["csr1851bC.glb",623124],["csr2325aC.glb",527892],["csr2325bC.glb",430612],["csr2397aC.glb",601936],["csr2397bC.glb",496280],["csr2421aC.glb",634344],["csr2421bC.glb",540568],["csr2495aC.glb",535372],["csr2495bC.glb",444316],["csr2584aC.glb",572376],["csr2584bC.glb",458424]];
