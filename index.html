@@ -291,7 +291,7 @@ function fly(dt){
   if(!held.size||(held.size===1&&held.has('shift')))return;
   camAnim=null;
   const F=sceneFrame(),size=Math.max(F.w,F.h,F.d||1,1.8);
-  const speed=size*0.45*(held.has('shift')?3:1)*dt;   // crosses the scene in ~2 s (≈0.7 s with Shift)
+  const speed=size*0.15*(held.has('shift')?3:1)*dt;   // crosses the scene in ~7 s (≈2 s with Shift)
   cam.getWorldDirection(_fw);_rt.crossVectors(_fw,cam.up).normalize();_mv.set(0,0,0);
   if(held.has('w'))_mv.add(_fw);if(held.has('s'))_mv.sub(_fw);
   if(held.has('d'))_mv.add(_rt);if(held.has('a'))_mv.sub(_rt);
@@ -1516,14 +1516,14 @@ const tourWait=ms=>new Promise(r=>setTimeout(r,ms));
 const nextFrame=()=>new Promise(r=>requestAnimationFrame(r));
 function tourBodies(){return bodies.filter(b=>b.outer.visible);}
 function setTourBtns(id){tourOn=!!id;['bTourSeq','bTourRnd'].forEach(k=>$(k).classList.toggle('on',k===id));}
-function frontOf(b){   // camera straight in front of body b, framing it head to toe
+function frontOf(b){   // camera in front of body b, 0.5 m above its middle, framing it head to toe
   const bx=new THREE.Box3().setFromObject(b.mesh),c=new THREE.Vector3(),s=new THREE.Vector3();bx.getCenter(c);bx.getSize(s);
   const a=b.facing+b.outer.rotation.y,fx=Math.abs(Math.sin(a)),fz=Math.abs(Math.cos(a));
   const w=Math.max(s.x*fz+s.z*fx,0.5),dep=Math.max(s.x*fx+s.z*fz,0.3),h=Math.max(s.y,0.5);   // extent across / along the view
   // the body fills about 70% of the view height (and width), measured from its nearest surface
   const vf=THREE.MathUtils.degToRad(cam.fov)/2,hf=Math.atan(Math.tan(vf)*cam.aspect);
   const d=Math.max((h/2)/Math.tan(vf),(w/2)/Math.tan(hf))/0.7+dep/2;
-  cam.position.set(c.x+Math.sin(a)*d,c.y,c.z+Math.cos(a)*d);ctl.target.copy(c);ctl.update();
+  cam.position.set(c.x+Math.sin(a)*d,c.y+0.5,c.z+Math.cos(a)*d);ctl.target.copy(c);ctl.update();   // 0.5 m above the body's middle, looking at it
 }
 async function tourTo(b,gen){
   while(gen===tourGen&&bodies.some(x=>x.anim))await nextFrame();   // let any layout move finish first
