@@ -34,6 +34,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 
 <nav>
 <a href="#start">1. Getting started</a>
+<a href="#screen">1a. The screen layout</a>
 <a href="#list">2. The file list</a>
 <a href="#single">3. Single mode</a>
 <a href="#repair">3a. Repair (watertight copy)</a>
@@ -53,8 +54,8 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 
 <h2 id="start">1. Getting started</h2>
 <p><b>When the page opens</b> it loads the built-in sample set (60 scans) into <b>Multi</b> mode with the <b>Cube</b> layout and fog turned on. The bodies appear one after another as they download. Use <span class="btn">Clear scene</span> and <span class="btn">Clear</span> to start fresh with your own folders.</p>
-<figure><img data-b64="help/1_cube.txt" alt="The 60 sample scans arranged in a cube in Multi mode" loading="lazy"><figcaption>The 60 built-in sample scans in Multi mode, Cube layout, with fog. The Mode row has Single, Multi, Compare and Ranger; the Layout row has Wall, Cube, Line and Floor. <span class="btn">ShowAll</span> in the Landmarks row is greyed out here: it works in Single mode only.</figcaption></figure>
-<h3>Loading buttons</h3>
+<figure><img data-b64="help/1_cube.txt" alt="The 60 sample scans arranged in a cube in Multi mode" loading="lazy"><figcaption>The 60 built-in sample scans in Multi mode, Cube layout, with fog. The rail on the left has the Scans panel open; the mode bar is at the top of the view and the body bar along the bottom (section 1a).</figcaption></figure>
+<h3>Loading buttons (Scans panel)</h3>
 <table>
 <tr><td><span class="btn p">Add folder…</span></td><td>Pick any folder (if you have the body files locally), e.g. a folder of scans or the folder that holds several of them. Every <code>.glb</code> in that folder <b>and all its subfolders</b> is added to the list; other files (<code>.ply.gz</code>, <code>.lnd</code>, <code>.txt</code>, hidden <code>._</code> files) are ignored. In Single mode the first new scan opens; in Multi mode use <span class="btn">Add all shown</span> to put the listed scans in the scene.</td></tr>
 <tr><td><span class="btn">Add files…</span></td><td>Add individual <code>.glb</code>, <code>.ply.gz</code> or <code>.lnd</code> files. You can also drag files onto the 3D view.</td></tr>
@@ -65,23 +66,42 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <div class="note"><b>No scans on this computer?</b> Click <span class="btn">Load sample set</span> (or the link in the empty view). It loads 60 scans stored with this page: 30 people (15 men and 15 women spread from the shortest to the tallest in the sample), each with a standing (<i>a</i>) and a matching seated (<i>b</i>) scan, which suit Compare mode. They are the <b>light</b> versions (names ending <code>C</code>, e.g. <code>csr0250aC</code>): about a tenth of the triangles and about 0.6 MB each, with colors and landmarks kept.</div>
 <div class="note"><b>Which folder to pick?</b> <code>a</code> folders hold standing scans, <code>b</code> seated, <code>c</code> a second seated pose. A browser can only read inside the folder you pick, and it does not follow links or aliases to other folders, so pick the real folder, not a folder of aliases. When you pick a large folder the browser asks you to confirm “upload” of every file in it; nothing actually leaves your computer, and only the <code>.glb</code> files are used. The measurement data is built in, so you don't need the measurement files.</div>
 
+<h2 id="screen">1a. The screen layout</h2>
+<p>The 3D view fills most of the window. Around it are three things:</p>
+<table>
+<tr><td><b>Rail</b> (left edge)</td><td>A column of buttons, each with its name under the icon. Each one opens one panel beside the rail. Click the same button again, or <span class="btn">✕</span> at the top of the panel, to close it: the 3D view then takes the full width. Only one panel is open at a time; the page opens with Scans.</td></tr>
+<tr><td><b>Mode bar</b> (top centre of the view)</td><td><span class="btn">Single</span> <span class="btn">Multi</span> <span class="btn">Compare</span> <span class="btn">Ranger</span>.</td></tr>
+<tr><td><b>Body bar</b> (bottom of the view)</td><td>The name and details of what is shown: vertex and triangle counts, scan height, sex and the values of the three filter measurements in Single mode; the number of bodies, triangles and layout in Multi mode; both bodies and the difference between them in Compare mode. In Single mode <span class="btn">◀ Prev</span> <span class="btn">Next ▶</span> are at its right end.</td></tr>
+</table>
+<table>
+<tr><th>Rail button</th><th>Panel</th></tr>
+<tr><td><b>Scans</b></td><td>The title; <span class="btn">Add folder…</span> <span class="btn">Add files…</span> <span class="btn">Clear</span> <span class="btn">Load sample set</span>; <b>Show: All / PLY / GLB</b>; <span class="btn">Download 1st selected</span> and, in Single mode, <span class="btn">Repair</span>; the name filter box and the file list (section 2).</td></tr>
+<tr><td><b>Filters</b></td><td>Sex, Set and the three measurement filters, with the number of files listed (section 8).</td></tr>
+<tr><td><b>Tapes</b></td><td>The two tape measures (section 7a).</td></tr>
+<tr><td><b>View</b></td><td>Surface (Scan color, Shaded, Wire), Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6).</td></tr>
+<tr><td><b>Landmarks</b></td><td>Show, X-ray, Clear labels, ShowAll, the callout distance, the sphere size and the region colours (section 7).</td></tr>
+<tr><td><b>Layout</b></td><td>The settings for the current mode: in Multi, Wall/Cube/Line/Floor, Cube outline, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are.</td></tr>
+<tr><td><b>Help</b></td><td>Opens this page.</td></tr>
+</table>
+
 <h2 id="list">2. The file list</h2>
+<p>The list is in the <b>Scans</b> panel.</p>
 <ul>
 <li>Each entry shows the scan name exactly as the file is named (upper/lower case kept, e.g. <code>csr0250aC</code>), a <span class="tag" style="background:#3a3f4a">PLY</span> or <span class="tag" style="background:#6a4fd8">GLB</span> tag, the subject's sex (M/F) and measurement values, and the file size.</li>
 <li>A <span class="dot" style="background:#6dff8a"></span> green dot on a PLY entry means a matching landmark file was found. GLB files carry their landmarks inside.</li>
 <li><b>Show: All / PLY / GLB</b> limits the list to one file type.</li>
 <li>The <b>Filter</b> box matches part of the name, e.g. <code>030</code> or <code>nl_</code>.</li>
 <li>The measurement and sex filters (section 8) also narrow the list.</li>
-<li><span class="btn">Download 1st selected</span> (below the Show buttons) saves the first selected scan in the list: the one shown in Single mode, the first body in the scene in Multi mode, or the first of A/B in Compare mode. In the Claude artifact viewer the file arrives inside a .zip; on the hosted website it downloads as is.</li>
+<li><span class="btn">Download 1st selected</span> (in the Scans panel, below the Show buttons) saves the first selected scan in the list: the one shown in Single mode, the first body in the scene in Multi mode, or the first of A/B in Compare mode. In the Claude artifact viewer the file arrives inside a .zip; on the hosted website it downloads as is.</li>
 <li><b>Shift-click</b> (Multi mode): click one scan, then shift-click another to add every scan between them, as in the Finder. To remove a range, click a scan that is in the scene (which removes it), then shift-click another: every scan between them is removed.</li>
 <li>If a click can't add a body, an orange notice at the top of the 3D view says why: the Body limit is reached (raise the slider or remove some bodies), or the body was added but is hidden by the filters.</li>
 </ul>
 
 <h2 id="single">3. Single mode</h2>
-<p>One body at a time. Click a list entry, or use <span class="btn">◀ Prev</span> <span class="btn">Next ▶</span> or <kbd>↑</kbd> <kbd>↓</kbd> to step through the list. The header shows vertex and triangle counts, the scan height, the subject's sex and the values of the three selected measurements.</p>
+<p>One body at a time. Click a list entry, or use <span class="btn">◀ Prev</span> <span class="btn">Next ▶</span> or <kbd>↑</kbd> <kbd>↓</kbd> to step through the list. The body bar along the bottom of the view shows vertex and triangle counts, the scan height, the subject's sex and the values of the three selected measurements.</p>
 
 <h3 id="repair">3a. Repair (watertight copy)</h3>
-<p><span class="btn">Repair</span> (next to <span class="btn">Download 1st selected</span>, Single mode only) makes a <b>watertight copy</b> of the body on screen, with every hole closed. The original scan and its file are not changed.</p>
+<p><span class="btn">Repair</span> (next to <span class="btn">Download 1st selected</span> in the Scans panel, Single mode only) makes a <b>watertight copy</b> of the body on screen, with every hole closed. The original scan and its file are not changed.</p>
 <ul>
 <li><b>Only the holes get new triangles.</b> Every original triangle, vertex position and colour is kept exactly as it was. Clean-up removes only what cannot be part of a closed surface: zero-area or duplicate triangles, extra triangles on an edge shared by more than two, and tiny floating fragments of scanner noise (fewer than 50 triangles).</li>
 <li><b>Small holes</b> are closed with the least-area set of triangles across the hole. <b>Large holes</b> (scalp, soles, under the arms, between arm and torso, the lap) get a smooth cap that continues the slope of the surrounding surface: domed where the body is rounded, flat where it is flat.</li>
@@ -93,18 +113,18 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 </ul>
 
 <h3 id="showall">3b. ShowAll landmark callouts</h3>
-<p><span class="btn">ShowAll</span> (in the Landmarks row; always shown, but greyed out except in Single mode) labels <b>every landmark</b> of the body at once, in two columns beside it, each joined to its landmark by a callout line in the landmark's region colour.</p>
+<p><span class="btn">ShowAll</span> (in the Landmarks panel; always shown, but greyed out except in Single mode) labels <b>every landmark</b> of the body at once, in two columns beside it, each joined to its landmark by a callout line in the landmark's region colour.</p>
 <ul>
 <li>Landmarks on the left half of the body are labelled in the left column, the rest on the right. Each column keeps the landmarks' top-to-bottom order and spreads the labels just enough not to overlap.</li>
 <li>The <b>callout</b> slider (5–100 cm) sets how far the columns sit out from the side of the body. If the columns would not fit, the view backs off so they do.</li>
 <li>The columns follow the view as you rotate and zoom. Labels whose landmark is on the far side of the body are dimmed.</li>
 <li><b>Move a label by hand:</b> drag it anywhere. It then keeps that position relative to its landmark as you turn the view, and stays put when you switch scans. <b>Double-click</b> a moved label to put it back in its column.</li>
-<li>While ShowAll is on, single pinned labels are hidden so nothing is labelled twice. Turning landmarks off (<span class="btn">Show</span> or <kbd>L</kbd>) hides the callouts too. If the left column sits under the control panel, collapse the panel with its <span class="btn">–</span> button.</li>
+<li>While ShowAll is on, single pinned labels are hidden so nothing is labelled twice. Turning landmarks off (<span class="btn">Show</span> or <kbd>L</kbd>) hides the callouts too. If the left column sits under an open panel, close the panel by clicking its rail button again.</li>
 </ul>
 
 <h2 id="multi">4. Multi mode</h2>
 <p>Many bodies at once, up to the <b>Body limit</b>. Clicking a list entry <b>adds</b> that body to the scene; clicking it again <b>removes</b> it. Bodies in the scene are highlighted in the list. Every body is turned to face the front, using its landmarks, and has a name tag underneath.</p>
-<p><b>Body limit</b> slider (10 to 9,000, default 2,000): the most bodies the scene may hold. It takes effect at once, also during a load in progress; lowering it does not remove bodies already loaded. It resets to 2,000 when the page reloads. Each full-resolution scan uses a lot of memory, so use the light scans (section 12) for large scenes.</p>
+<p>The Multi settings are in the <b>Layout</b> panel. <b>Body limit</b> slider (10 to 9,000, default 2,000): the most bodies the scene may hold. It takes effect at once, also during a load in progress; lowering it does not remove bodies already loaded. It resets to 2,000 when the page reloads. Each full-resolution scan uses a lot of memory, so use the light scans (section 12) for large scenes.</p>
 <table>
 <tr><th>Layout</th><th>Arrangement</th></tr>
 <tr><td><span class="btn">Wall</span></td><td>A grid of rows stacked upward and columns side by side, starting top-left. The number of columns follows the window's shape.</td></tr>
@@ -135,17 +155,18 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <h2 id="compare">5. Compare mode</h2>
 <p>Two bodies, <span class="tag" style="background:#3d7bff">A</span> and <span class="tag" style="background:#e8862a">B</span>, for side-by-side or overlaid comparison.</p>
 <ul>
-<li><b>Choosing bodies:</b> the highlighted slot receives the next scan you click in the list. After A is filled, B is highlighted automatically. Press <span class="btn">Pick</span> on a slot to replace just that one. Clicking a scan that is already in a slot removes it.</li>
+<li>Position, Separation and the A and B slots are in the <b>Layout</b> panel.</li>
+<li><b>Choosing bodies:</b> the highlighted slot receives the next scan you click in the list. After A is filled, B is highlighted automatically. Press <span class="btn">Pick</span> on a slot to replace just that one; Pick opens the Scans panel so you can click the scan. Clicking a scan that is already in a slot removes it.</li>
 <li><b>Opacity</b> (per body) makes it translucent so the other shows through. The defaults are A 100%, B 60%.</li>
 <li><b>Tint</b> (per body) colors it blue (A) or orange (B) so overlapping surfaces are easy to tell apart.</li>
 <li><b>Separation</b> slider: the distance between the two bodies' centers. At 0 cm they overlap completely; dragging moves A left and B right.</li>
 <li><span class="btn">Superimposed</span> jumps to 0 cm. <span class="btn">Side by side</span> jumps to the distance where their nearest edges are 15 cm apart.</li>
-<li>The header shows both scan heights, the value of the first checked measurement (stature if none), and the difference B − A.</li>
+<li>The body bar shows both scan heights, the value of the first checked measurement (stature if none), and the difference B − A.</li>
 </ul>
 <figure><img data-b64="help/4_compare.txt" alt="Two seated scans side by side in Compare mode" loading="lazy"><figcaption>Compare mode: smallest and largest chest in the B set (csr1496bC and csr0633bC), tints off, both at 100% opacity, side by side 100 cm apart.</figcaption></figure>
 
 <h2 id="ranger">5a. Ranger mode and range sliders</h2>
-<p><span class="btn">Ranger</span> (in the Mode row) shows <b>one body at a time</b> and cycles through every scan that falls inside two range sliders drawn in the 3D view. Use it to watch how bodies change across a band of sizes.</p>
+<p><span class="btn">Ranger</span> (in the mode bar) shows <b>one body at a time</b> and cycles through every scan that falls inside two range sliders drawn in the 3D view. Use it to watch how bodies change across a band of sizes.</p>
 <figure><img data-b64="help/7_ranger.txt" alt="Ranger mode: one standing body, the Weight slider along the bottom, the Stature slider on the right and the Ranger bar with Cycling On" loading="lazy"><figcaption>Ranger mode with Weight narrowed to 152–235 lb (horizontal) and Stature to 65.7–75.6″ (vertical): 28 of the 60 sample scans are in range, and cycling is on, showing number 3 (csr0252aC).</figcaption></figure>
 <h3>The two range sliders</h3>
 <ul>
@@ -178,7 +199,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <ul><li>Drag to rotate · scroll to zoom · right-drag (or two-finger drag) to pan.</li></ul>
 <h3>Keyboard flying</h3>
 <p><kbd>W</kbd>/<kbd>S</kbd> forward and back · <kbd>A</kbd>/<kbd>D</kbd> left and right · <kbd>E</kbd>/<kbd>Q</kbd> up and down · hold <kbd>Shift</kbd> for 3× speed. The rotation point moves with you, so after flying somewhere the mouse rotates around your new position. Speed scales with the size of the scene.</p>
-<h3>Panel buttons</h3>
+<h3>View panel buttons</h3>
 <table>
 <tr><td><span class="btn">Scan color</span> <span class="btn">Shaded</span> <span class="btn">Wire</span></td><td>Show the scanner's own color, plain gray shading, or the triangle mesh.</td></tr>
 <tr><td><span class="btn">Front</span> <span class="btn">Side</span> <span class="btn">Back</span> <span class="btn">Top</span></td><td>Standard views, lined up with the direction the body faces.</td></tr>
@@ -186,8 +207,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <tr><td><span class="btn">Fit all</span></td><td>Reframe the camera on everything in the scene.</td></tr>
 <tr><td><span class="btn">Fog</span> + slider</td><td>Fade farther bodies into the background (distance fog). The slider sets the strength; the fog follows the camera, so whatever is nearest stays clear.</td></tr>
 <tr><td><span class="btn">Names</span></td><td>Show or hide the file-name tags under the bodies (Multi and Compare). Key <kbd>N</kbd>.</td></tr>
-<tr><td><span class="btn">–</span> / <span class="btn">+</span></td><td>Collapse or expand the floating panel at the top of the 3D view. Collapse it when it covers bodies you want to click.</td></tr>
-<tr><td><span class="btn">«</span> / <span class="btn">» Controls</span></td><td><span class="btn">«</span> (top right of the left panel) hides the whole left control panel so the 3D view fills the window; <span class="btn">» Controls</span> (bottom left) brings it back.</td></tr>
+<tr><td>Rail buttons · <span class="btn">✕</span></td><td>Open a panel; click the open one again, or ✕, to close it so the 3D view fills the window beside the rail.</td></tr>
 </table>
 <h3>Single-key toggles</h3>
 <p><kbd>R</kbd> Auto-rotate · <kbd>N</kbd> name tags · <kbd>L</kbd> landmarks. Each works exactly like clicking its button. They are ignored while you type in a text field, and when <kbd>Cmd</kbd>, <kbd>Ctrl</kbd> or <kbd>Alt</kbd> is held.</p>
@@ -206,7 +226,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 
 <figure><img data-b64="help/5_showall.txt" alt="A standing scan in Single mode with ShowAll: every landmark labelled in two columns with callout lines" loading="lazy"><figcaption>Single mode with <a href="#showall">ShowAll</a> (csr0625aC): all 73 landmarks labelled in two columns beside the body, callout distance 25 cm, panel collapsed.</figcaption></figure>
 <h2 id="tape">7a. Tape measures and definitions</h2>
-<p>Pick up to two measurements from the <b>Tape measures</b> menus in the left panel, above the measurement filters. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the <i>CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions</i> (Air Force Research Laboratory, 2002):</p>
+<p>Pick up to two measurements from the two menus in the <b>Tapes</b> panel. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the <i>CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions</i> (Air Force Research Laboratory, 2002):</p>
 <ul>
 <li><b>Circumferences</b> wrap around the scan the way a tape does, bridging hollows (chest at the bust points, waist at the preferred-waist landmark, hip at the table's maximum-hip height, neck base, armscye, thigh, ankle, head, hand, vertical trunk).</li>
 <li><b>Surface lengths</b> run over the body between landmarks (arm lengths, total crotch length, waist front length).</li>
@@ -215,10 +235,11 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 </ul>
 <p>The readout and labels give the table value (measured by hand) and, where the scan allows, the length of the tape on the scan. They differ because the scan posture is not the measuring posture (for example, arm lengths were taken with the arm bent and the fist on the hip). Seated measures appear only on seated (b/c) scans and standing measures only on standing (a) scans. Weight, skinfolds and thumb-tip reach are not drawn.</p>
 <p>In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Each tape has a label beside the body with the measure's name, the table value and the tape length on the scan. Labels are shown when there are up to 60 bodies <b>on screen</b> (bodies hidden by filters don't count), so filtering down to a few bodies always brings the labels back.</p>
-<figure><img data-b64="help/3_tapes_filters.txt" alt="Wall of six tallest scans with stature and waist tapes and labels; filter panel on the left" loading="lazy"><figcaption>Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ on the two-circle slider; Sex and Set rows above it), with Stature (yellow) and Waist Circumference (blue) tapes and their labels.</figcaption></figure>
+<figure><img data-b64="help/3_tapes_filters.txt" alt="Wall of six tallest scans with stature and waist tapes and labels; Tapes panel open on the left" loading="lazy"><figcaption>Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ in the Filters panel), with Stature (yellow) and Waist Circumference (blue) tapes and their labels; the Tapes panel is open.</figcaption></figure>
 <p>A card at the bottom right shows the report's description, method, instrument, ISO 7250 reference and line drawing for the chosen measurement, with its page number. With two tapes on, tabs switch between them. Use <span class="btn">–</span> on the card to fold it.</p>
 
 <h2 id="filters">8. Measurement and sex filters</h2>
+<p>All the filters are in the <b>Filters</b> panel. The number of files listed shows at the bottom of the panel.</p>
 <h3>Sex</h3>
 <p><b>All / Male / Female</b> radio buttons.</p>
 <h3>Set</h3>
@@ -265,7 +286,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <h2 id="limits">11. Limits and troubleshooting</h2>
 <ul>
 <li><b>Memory:</b> a full-resolution scan is 150–210 thousand vertices and about 400 thousand triangles, roughly 7–10 MB of graphics memory plus as much again in the page. A browser tab runs out of memory somewhere around 1,500–2,000 full-resolution bodies, and the buttons get slow well before that. Use the light scans (section 12) for big scenes.</li>
-<li><b>Buttons slow to respond during a big load:</b> each new body re-arranges the whole scene. Let the load finish or press <span class="btn">Stop</span> in the progress popup.</li>
+<li><b>Buttons slow to respond during a big load:</b> each new body re-arranges the whole scene. Let the load finish.</li>
 <li><b>Clicks don't add bodies:</b> look for the orange notice at the top of the 3D view: the Body limit may be reached, or the body may be hidden by a filter.</li>
 <li><b>"No matching landmark file":</b> add the folder that contains <code>landmarks/</code> (e.g. pick <code>a2</code> rather than <code>a2/scans</code>), or use the GLB version.</li>
 <li><b>A scan disappears from the list:</b> check the Show buttons, the filter box, and the sex and measurement filters.</li>
