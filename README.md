@@ -68,6 +68,7 @@ The text below is the same as `help.html`.
 The browser displays 3D body scans from the CAESAR anthropometric survey (US, Italy and Netherlands), with their anatomical landmarks and measurements. It reads scans straight from your disk: nothing is uploaded.
 
 - 1\. Getting started
+  - 1a. The screen layout
 - 2\. The file list
 - 3\. Single mode
   - 3a. Repair (watertight copy)
@@ -90,9 +91,9 @@ The browser displays 3D body scans from the CAESAR anthropometric survey (US, It
 
 ![The 60 sample scans arranged in a cube in Multi mode](docs/images/help_cube.jpg)
 
-*The 60 built-in sample scans in Multi mode, Cube layout, with fog. The Mode row has Single, Multi, Compare and Ranger; the Layout row has Wall, Cube, Line and Floor. ShowAll in the Landmarks row is greyed out here: it works in Single mode only.*
+*The 60 built-in sample scans in Multi mode, Cube layout, with fog. The rail on the left has the Scans panel open; the mode bar is at the top of the view and the body bar along the bottom (section 1a).*
 
-#### Loading buttons
+#### Loading buttons (Scans panel)
 
 |  |  |
 | --- | --- |
@@ -107,24 +108,46 @@ Loads add up: run Add folder on `a2`, then `b2`, and all of them appear in one l
 
 **Which folder to pick?** `a` folders hold standing scans, `b` seated, `c` a second seated pose. A browser can only read inside the folder you pick, and it does not follow links or aliases to other folders, so pick the real folder, not a folder of aliases. When you pick a large folder the browser asks you to confirm “upload” of every file in it; nothing actually leaves your computer, and only the `.glb` files are used. The measurement data is built in, so you don't need the measurement files.
 
+#### 1a. The screen layout
+
+The 3D view fills most of the window. Around it are three things:
+
+|  |  |
+| --- | --- |
+| **Rail** (left edge) | A column of buttons, each with its name under the icon. Each one opens one panel beside the rail. Click the same button again, or ✕ at the top of the panel, to close it: the 3D view then takes the full width. Only one panel is open at a time; the page opens with Scans. |
+| **Mode bar** (top centre of the view) | Single Multi Compare Ranger. |
+| **Body bar** (bottom of the view) | The name and details of what is shown: vertex and triangle counts, scan height, sex and the values of the three filter measurements in Single mode; the number of bodies, triangles and layout in Multi mode; both bodies and the difference between them in Compare mode. In Single mode ◀ Prev Next ▶ are at its right end. |
+
+| Rail button | Panel |
+| --- | --- |
+| **Scans** | The title; Add folder… Add files… Clear Load sample set; **Show: All / PLY / GLB**; Download 1st selected and, in Single mode, Repair; the name filter box and the file list (section 2). |
+| **Filters** | Sex, Set and the three measurement filters, with the number of files listed (section 8). |
+| **Tapes** | The two tape measures (section 7a). |
+| **View** | Surface (Scan color, Shaded, Wire), Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6). |
+| **Landmarks** | Show, X-ray, Clear labels, ShowAll, the callout distance, the sphere size and the region colours (section 7). |
+| **Layout** | The settings for the current mode: in Multi, Wall/Cube/Line/Floor, Cube outline, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are. |
+| **Help** | Opens this page. |
+
 ### 2. The file list
+
+The list is in the **Scans** panel.
 
 - Each entry shows the scan name exactly as the file is named (upper/lower case kept, e.g. `csr0250aC`), a PLY or GLB tag, the subject's sex (M/F) and measurement values, and the file size.
 - A green dot on a PLY entry means a matching landmark file was found. GLB files carry their landmarks inside.
 - **Show: All / PLY / GLB** limits the list to one file type.
 - The **Filter** box matches part of the name, e.g. `030` or `nl_`.
 - The measurement and sex filters (section 8) also narrow the list.
-- Download 1st selected (below the Show buttons) saves the first selected scan in the list: the one shown in Single mode, the first body in the scene in Multi mode, or the first of A/B in Compare mode. In the Claude artifact viewer the file arrives inside a .zip; on the hosted website it downloads as is.
+- Download 1st selected (in the Scans panel, below the Show buttons) saves the first selected scan in the list: the one shown in Single mode, the first body in the scene in Multi mode, or the first of A/B in Compare mode. In the Claude artifact viewer the file arrives inside a .zip; on the hosted website it downloads as is.
 - **Shift-click** (Multi mode): click one scan, then shift-click another to add every scan between them, as in the Finder. To remove a range, click a scan that is in the scene (which removes it), then shift-click another: every scan between them is removed.
 - If a click can't add a body, an orange notice at the top of the 3D view says why: the Body limit is reached (raise the slider or remove some bodies), or the body was added but is hidden by the filters.
 
 ### 3. Single mode
 
-One body at a time. Click a list entry, or use ◀ Prev Next ▶ or `↑` `↓` to step through the list. The header shows vertex and triangle counts, the scan height, the subject's sex and the values of the three selected measurements.
+One body at a time. Click a list entry, or use ◀ Prev Next ▶ or `↑` `↓` to step through the list. The body bar along the bottom of the view shows vertex and triangle counts, the scan height, the subject's sex and the values of the three selected measurements.
 
 #### 3a. Repair (watertight copy)
 
-**Repair** (next to Download 1st selected, Single mode only) makes a **watertight copy** of the body on screen, with every hole closed. The original scan and its file are not changed.
+**Repair** (next to Download 1st selected in the Scans panel, Single mode only) makes a **watertight copy** of the body on screen, with every hole closed. The original scan and its file are not changed.
 
 - **Only the holes get new triangles.** Every original triangle, vertex position and colour is kept exactly as it was. Clean-up removes only what cannot be part of a closed surface: zero-area or duplicate triangles, extra triangles on an edge shared by more than two, and tiny floating fragments of scanner noise (fewer than 50 triangles).
 - **Small holes** are closed with the least-area set of triangles across the hole. **Large holes** (scalp, soles, under the arms, between arm and torso, the lap) get a smooth cap that continues the slope of the surrounding surface: domed where the body is rounded, flat where it is flat.
@@ -136,19 +159,19 @@ One body at a time. Click a list entry, or use ◀ Prev Next ▶ or `↑` `↓` 
 
 #### 3b. ShowAll landmark callouts
 
-**ShowAll** (in the Landmarks row; always shown, but greyed out except in Single mode) labels **every landmark** of the body at once, in two columns beside it, each joined to its landmark by a callout line in the landmark's region colour.
+**ShowAll** (in the Landmarks panel; always shown, but greyed out except in Single mode) labels **every landmark** of the body at once, in two columns beside it, each joined to its landmark by a callout line in the landmark's region colour.
 
 - Landmarks on the left half of the body are labelled in the left column, the rest on the right. Each column keeps the landmarks' top-to-bottom order and spreads the labels just enough not to overlap.
 - The **callout** slider (5–100 cm) sets how far the columns sit out from the side of the body. If the columns would not fit, the view backs off so they do.
 - The columns follow the view as you rotate and zoom. Labels whose landmark is on the far side of the body are dimmed.
 - **Move a label by hand:** drag it anywhere. It then keeps that position relative to its landmark as you turn the view, and stays put when you switch scans. **Double-click** a moved label to put it back in its column.
-- While ShowAll is on, single pinned labels are hidden so nothing is labelled twice. Turning landmarks off (Show or `L`) hides the callouts too. If the left column sits under the control panel, collapse the panel with its – button.
+- While ShowAll is on, single pinned labels are hidden so nothing is labelled twice. Turning landmarks off (Show or `L`) hides the callouts too. If the left column sits under an open panel, close the panel by clicking its rail button again.
 
 ### 4. Multi mode
 
 Many bodies at once, up to the **Body limit**. Clicking a list entry **adds** that body to the scene; clicking it again **removes** it. Bodies in the scene are highlighted in the list. Every body is turned to face the front, using its landmarks, and has a name tag underneath.
 
-**Body limit** slider (10 to 9,000, default 2,000): the most bodies the scene may hold. It takes effect at once, also during a load in progress; lowering it does not remove bodies already loaded. It resets to 2,000 when the page reloads. Each full-resolution scan uses a lot of memory, so use the light scans (section 12) for large scenes.
+The Multi settings are in the **Layout** panel. **Body limit** slider (10 to 9,000, default 2,000): the most bodies the scene may hold. It takes effect at once, also during a load in progress; lowering it does not remove bodies already loaded. It resets to 2,000 when the page reloads. Each full-resolution scan uses a lot of memory, so use the light scans (section 12) for large scenes.
 
 | Layout | Arrangement |
 | --- | --- |
@@ -187,12 +210,13 @@ Many bodies at once, up to the **Body limit**. Clicking a list entry **adds** th
 
 Two bodies, A and B, for side-by-side or overlaid comparison.
 
-- **Choosing bodies:** the highlighted slot receives the next scan you click in the list. After A is filled, B is highlighted automatically. Press Pick on a slot to replace just that one. Clicking a scan that is already in a slot removes it.
+- Position, Separation and the A and B slots are in the **Layout** panel.
+- **Choosing bodies:** the highlighted slot receives the next scan you click in the list. After A is filled, B is highlighted automatically. Press Pick on a slot to replace just that one; Pick opens the Scans panel so you can click the scan. Clicking a scan that is already in a slot removes it.
 - **Opacity** (per body) makes it translucent so the other shows through. The defaults are A 100%, B 60%.
 - **Tint** (per body) colors it blue (A) or orange (B) so overlapping surfaces are easy to tell apart.
 - **Separation** slider: the distance between the two bodies' centers. At 0 cm they overlap completely; dragging moves A left and B right.
 - Superimposed jumps to 0 cm. Side by side jumps to the distance where their nearest edges are 15 cm apart.
-- The header shows both scan heights, the value of the first checked measurement (stature if none), and the difference B − A.
+- The body bar shows both scan heights, the value of the first checked measurement (stature if none), and the difference B − A.
 
 ![Two seated scans side by side in Compare mode](docs/images/help_compare.jpg)
 
@@ -200,7 +224,7 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 
 #### 5a. Ranger mode and range sliders
 
-**Ranger** (in the Mode row) shows **one body at a time** and cycles through every scan that falls inside two range sliders drawn in the 3D view. Use it to watch how bodies change across a band of sizes.
+**Ranger** (in the mode bar) shows **one body at a time** and cycles through every scan that falls inside two range sliders drawn in the 3D view. Use it to watch how bodies change across a band of sizes.
 
 ![Ranger mode: one standing body, the Weight slider along the bottom, the Stature slider on the right and the Ranger bar with Cycling On](docs/images/help_ranger.jpg)
 
@@ -241,7 +265,7 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 
 `W`/`S` forward and back · `A`/`D` left and right · `E`/`Q` up and down · hold `Shift` for 3× speed. The rotation point moves with you, so after flying somewhere the mouse rotates around your new position. Speed scales with the size of the scene.
 
-#### Panel buttons
+#### View panel buttons
 
 |  |  |
 | --- | --- |
@@ -251,8 +275,7 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 | Fit all | Reframe the camera on everything in the scene. |
 | Fog + slider | Fade farther bodies into the background (distance fog). The slider sets the strength; the fog follows the camera, so whatever is nearest stays clear. |
 | Names | Show or hide the file-name tags under the bodies (Multi and Compare). Key `N`. |
-| – / + | Collapse or expand the floating panel at the top of the 3D view. Collapse it when it covers bodies you want to click. |
-| « / » Controls | « (top right of the left panel) hides the whole left control panel so the 3D view fills the window; » Controls (bottom left) brings it back. |
+| Rail buttons · ✕ | Open a panel; click the open one again, or ✕, to close it so the 3D view fills the window beside the rail. |
 
 #### Single-key toggles
 
@@ -273,11 +296,11 @@ Head & neck   Torso   Arms & hands   Legs & feet   Crotch (a computed point 
 
 ![A standing scan in Single mode with ShowAll: every landmark labelled in two columns with callout lines](docs/images/help_showall.jpg)
 
-*Single mode with ShowAll (csr0625aC): all 73 landmarks labelled in two columns beside the body, callout distance 25 cm, panel collapsed.*
+*Single mode with ShowAll (csr0625aC): all 73 landmarks labelled in two columns beside the body, callout distance 25 cm, Landmarks panel open.*
 
 ### 7a. Tape measures and definitions
 
-Pick up to two measurements from the **Tape measures** menus in the left panel, above the measurement filters. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the *CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions* (Air Force Research Laboratory, 2002):
+Pick up to two measurements from the two menus in the **Tapes** panel. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the *CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions* (Air Force Research Laboratory, 2002):
 
 - **Circumferences** wrap around the scan the way a tape does, bridging hollows (chest at the bust points, waist at the preferred-waist landmark, hip at the table's maximum-hip height, neck base, armscye, thigh, ankle, head, hand, vertical trunk).
 - **Surface lengths** run over the body between landmarks (arm lengths, total crotch length, waist front length).
@@ -288,13 +311,15 @@ The readout and labels give the table value (measured by hand) and, where the sc
 
 In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Each tape has a label beside the body with the measure's name, the table value and the tape length on the scan. Labels are shown when there are up to 60 bodies **on screen** (bodies hidden by filters don't count), so filtering down to a few bodies always brings the labels back.
 
-![Wall of six tallest scans with stature and waist tapes and labels; filter panel on the left](docs/images/help_tapes_filters.jpg)
+![Wall of six tallest scans with stature and waist tapes and labels; Tapes panel open on the left](docs/images/help_tapes_filters.jpg)
 
-*Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ on the two-circle slider; Sex and Set rows above it), with Stature (yellow) and Waist Circumference (blue) tapes and their labels.*
+*Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ in the Filters panel), with Stature (yellow) and Waist Circumference (blue) tapes and their labels; the Tapes panel is open.*
 
 A card at the bottom right shows the report's description, method, instrument, ISO 7250 reference and line drawing for the chosen measurement, with its page number. With two tapes on, tabs switch between them. Use – on the card to fold it.
 
 ### 8. Measurement and sex filters
+
+All the filters are in the **Filters** panel. The number of files listed shows at the bottom of the panel.
 
 #### Sex
 
@@ -350,7 +375,7 @@ Keys are ignored while you are typing in a text field such as the filter box.
 ### 11. Limits and troubleshooting
 
 - **Memory:** a full-resolution scan is 150–210 thousand vertices and about 400 thousand triangles, roughly 7–10 MB of graphics memory plus as much again in the page. A browser tab runs out of memory somewhere around 1,500–2,000 full-resolution bodies, and the buttons get slow well before that. Use the light scans (section 12) for big scenes.
-- **Buttons slow to respond during a big load:** each new body re-arranges the whole scene. Let the load finish or press Stop in the progress popup.
+- **Buttons slow to respond during a big load:** each new body re-arranges the whole scene. Let the load finish.
 - **Clicks don't add bodies:** look for the orange notice at the top of the 3D view: the Body limit may be reached, or the body may be hidden by a filter.
 - **"No matching landmark file":** add the folder that contains `landmarks/` (e.g. pick `a2` rather than `a2/scans`), or use the GLB version.
 - **A scan disappears from the list:** check the Show buttons, the filter box, and the sex and measurement filters.
