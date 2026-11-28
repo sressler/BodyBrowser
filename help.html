@@ -80,7 +80,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <tr><td><b>Tapes</b></td><td>The two tape measures (section 7a).</td></tr>
 <tr><td><b>View</b></td><td>Surface (Scan color, Shaded, Wire), Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6).</td></tr>
 <tr><td><b>Landmarks</b></td><td>Show, X-ray, Clear labels, ShowAll, the callout distance, the sphere size and the region colours (section 7).</td></tr>
-<tr><td><b>Layout</b></td><td>The settings for the current mode: in Multi, Wall/Cube/Line/Floor, Cube outline, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are.</td></tr>
+<tr><td><b>Layout</b></td><td>The settings for the current mode: in Multi, Wall/Cube/Line/Floor/Sorted, Cube outline, Sorted on, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are.</td></tr>
 <tr><td><b>Help</b></td><td>Opens this page.</td></tr>
 </table>
 
@@ -131,6 +131,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <tr><td><span class="btn">Cube</span></td><td>A 3D lattice with equal spacing in all three directions (27 bodies → 3×3×3). The camera starts at a three-quarter view from above. Fly inside with WASD. <b>Cube outline: On / Off</b> shows or hides a gray wireframe of the cube the bodies sit in. Fog helps show depth here.</td></tr>
 <tr><td><span class="btn">Line</span></td><td>One horizontal row. Each body gets exactly its own width plus a 15 cm gap, so neighbors never touch.</td></tr>
 <tr><td><span class="btn">Floor</span></td><td>All bodies standing on the floor in rows, one row behind another (60 bodies → 10×6), first body at the back left. A floor grid is drawn under the whole layout, and the camera starts in front and above so the rows behind show over the ones in front. Fog helps show depth here.</td></tr>
+<tr><td><span class="btn">Sorted</span></td><td>A grid sorted by the measurements chosen in the <b>first two filters</b> (Filters panel; Stature and Weight unless you change them; the filters need not be ticked). The bodies are split into equal-count columns by the first measurement, lowest on the left; each column is then sorted by the second measurement, lowest at the bottom. <b>Sorted on: Wall / Floor</b> stands the grid up like Wall, or lays it on the floor like Floor, with the second measurement running from front to back. Axes are drawn along the bottom and the left side: each column is labelled with its range of the first measurement, each row with the range of the second measurement across the columns, and each name tag shows the body's value of the second measurement. Choosing other measurements in the first two filters re-sorts the grid; scans with no value go last.</td></tr>
 </table>
 <figure><img data-b64="help/6_floor.txt" alt="The 60 sample scans standing in rows on the floor in Multi mode" loading="lazy"><figcaption>The 60 built-in sample scans in the Floor layout (10×6), with fog: rows one behind another, first body at the back left.</figcaption></figure>
 <ul>

@@ -125,7 +125,7 @@ The 3D view fills most of the window. Around it are three things:
 | **Tapes** | The two tape measures (section 7a). |
 | **View** | Surface (Scan color, Shaded, Wire), Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6). |
 | **Landmarks** | Show, X-ray, Clear labels, ShowAll, the callout distance, the sphere size and the region colours (section 7). |
-| **Layout** | The settings for the current mode: in Multi, Wall/Cube/Line/Floor, Cube outline, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are. |
+| **Layout** | The settings for the current mode: in Multi, Wall/Cube/Line/Floor/Sorted, Cube outline, Sorted on, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are. |
 | **Help** | Opens this page. |
 
 ### 2. The file list
@@ -179,6 +179,7 @@ The Multi settings are in the **Layout** panel. **Body limit** slider (10 to 9,0
 | Cube | A 3D lattice with equal spacing in all three directions (27 bodies → 3×3×3). The camera starts at a three-quarter view from above. Fly inside with WASD. **Cube outline: On / Off** shows or hides a gray wireframe of the cube the bodies sit in. Fog helps show depth here. |
 | Line | One horizontal row. Each body gets exactly its own width plus a 15 cm gap, so neighbors never touch. |
 | Floor | All bodies standing on the floor in rows, one row behind another (60 bodies → 10×6), first body at the back left. A floor grid is drawn under the whole layout, and the camera starts in front and above so the rows behind show over the ones in front. Fog helps show depth here. |
+| Sorted | A grid sorted by the measurements chosen in the **first two filters** (Filters panel; Stature and Weight unless you change them; the filters need not be ticked). The bodies are split into equal-count columns by the first measurement, lowest on the left; each column is then sorted by the second measurement, lowest at the bottom. **Sorted on: Wall / Floor** stands the grid up like Wall, or lays it on the floor like Floor, with the second measurement running from front to back. Axes are drawn along the bottom and the left side: each column is labelled with its range of the first measurement, each row with the range of the second measurement across the columns, and each name tag shows the body's value of the second measurement. Choosing other measurements in the first two filters re-sorts the grid; scans with no value go last. |
 
 ![The 60 sample scans standing in rows on the floor in Multi mode](docs/images/help_floor.jpg)
 
