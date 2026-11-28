@@ -121,9 +121,8 @@ The 3D view fills most of the window. Around it are three things:
 | Rail button | Panel |
 | --- | --- |
 | **Scans** | The title; Add folder… Add files… Clear Load sample set; **Show: All / PLY / GLB**; Download 1st selected and, in Single mode, Repair; the name filter box and the file list (section 2). |
-| **Filters** | Sex, Set and the three measurement filters, with the number of files listed (section 8). |
-| **Tapes** | The two tape measures (section 7a). |
-| **View** | Surface (Scan color, Shaded, Wire), Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6). |
+| **Filters** | Sex, Set and the three measurement filters, with the number of files listed (section 8); below them, the two tape measures (section 7a). |
+| **View** | Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6). |
 | **Landmarks** | Show, X-ray, Clear labels, ShowAll, the callout distance, the sphere size and the region colours (section 7). |
 | **Layout** | The settings for the current mode: in Multi, Wall/Cube/Line/Floor/Sorted, Cube outline, Sorted on, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are. |
 | **Help** | Opens this page. |
@@ -270,7 +269,6 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 
 |  |  |
 | --- | --- |
-| Scan color Shaded Wire | Show the scanner's own color, plain gray shading, or the triangle mesh. |
 | Front Side Back Top | Standard views, lined up with the direction the body faces. |
 | Auto-rotate | Slowly spin the view. |
 | Fit all | Reframe the camera on everything in the scene. |
@@ -301,7 +299,7 @@ Head & neck   Torso   Arms & hands   Legs & feet   Crotch (a computed point 
 
 ### 7a. Tape measures and definitions
 
-Pick up to two measurements from the two menus in the **Tapes** panel. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the *CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions* (Air Force Research Laboratory, 2002):
+Pick up to two measurements from the two **Tape measures** menus in the **Filters** panel, below the filters. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the *CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions* (Air Force Research Laboratory, 2002):
 
 - **Circumferences** wrap around the scan the way a tape does, bridging hollows (chest at the bust points, waist at the preferred-waist landmark, hip at the table's maximum-hip height, neck base, armscye, thigh, ankle, head, hand, vertical trunk).
 - **Surface lengths** run over the body between landmarks (arm lengths, total crotch length, waist front length).
@@ -312,15 +310,15 @@ The readout and labels give the table value (measured by hand) and, where the sc
 
 In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Each tape has a label beside the body with the measure's name, the table value and the tape length on the scan. Labels are shown when there are up to 60 bodies **on screen** (bodies hidden by filters don't count), so filtering down to a few bodies always brings the labels back.
 
-![Wall of six tallest scans with stature and waist tapes and labels; Tapes panel open on the left](docs/images/help_tapes_filters.jpg)
+![Wall of six tallest scans with stature and waist tapes and labels; Filters panel open on the left](docs/images/help_tapes_filters.jpg)
 
-*Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ in the Filters panel), with Stature (yellow) and Waist Circumference (blue) tapes and their labels; the Tapes panel is open.*
+*Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ in the Filters panel), with Stature (yellow) and Waist Circumference (blue) tapes and their labels; the Filters panel is open.*
 
 A card at the bottom right shows the report's description, method, instrument, ISO 7250 reference and line drawing for the chosen measurement, with its page number. With two tapes on, tabs switch between them. Use – on the card to fold it.
 
 ### 8. Measurement and sex filters
 
-All the filters are in the **Filters** panel. The number of files listed shows at the bottom of the panel.
+All the filters are in the **Filters** panel. The number of files listed shows below them, above the tape measures.
 
 #### Sex
 

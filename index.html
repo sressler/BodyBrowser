@@ -136,7 +136,7 @@ body.flipMode #rail,body.flipMode #modeBar{display:none!important}
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head><body>
 <div id="flipBar"><span id="flipInfo"></span><button id="bFlipOff" title="Turn the Flipper off and bring the controls back (Esc)">✕ Flipper</button></div>
-<nav id="rail"><button class="rb" data-p="scans" title="The scan list: add folders or files, load the sample set, search, download"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Scans</span></button><button class="rb" data-p="filters" title="Sex, set and measurement filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6 8v5l-4 2v-7z"/></svg><span>Filters</span></button><button class="rb" data-p="tapes" title="Tape measures on the body"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15 15 3l6 6L9 21z"/><path d="M7 11l2 2M10 8l2 2M13 5l2 2"/></svg><span>Tapes</span></button><button class="rb" data-p="view" title="Surface, camera views, tour, fog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View</span></button><button class="rb" data-p="lm" title="Landmark spheres, labels and ShowAll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Landmarks</span></button><button class="rb" data-p="layout" title="Settings for the current mode: Multi layout, Compare A/B"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Layout</span></button><a class="rb help" href="help.html" title="How to use this browser"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6v.6"/><path d="M12 17.2v.1"/></svg><span>Help</span></a></nav>
+<nav id="rail"><button class="rb" data-p="scans" title="The scan list: add folders or files, load the sample set, search, download"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Scans</span></button><button class="rb" data-p="filters" title="Sex, set and measurement filters, and the tape measures"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6 8v5l-4 2v-7z"/></svg><span>Filters</span></button><button class="rb" data-p="view" title="Surface, camera views, tour, fog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View</span></button><button class="rb" data-p="lm" title="Landmark spheres, labels and ShowAll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Landmarks</span></button><button class="rb" data-p="layout" title="Settings for the current mode: Multi layout, Compare A/B"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Layout</span></button><a class="rb help" href="help.html" title="How to use this browser"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6v.6"/><path d="M12 17.2v.1"/></svg><span>Help</span></a></nav>
 <button id="bSideShow" title="Show the control panel">» Controls</button>
 <div id="side"><div class="phead"><b id="pTitle">Scans</b><button id="bSideHide" title="Close this panel (click its button in the rail again to reopen it)">✕</button></div>
 <section class="pnl" data-p="scans"><div class="ptop">
@@ -157,14 +157,11 @@ body.flipMode #rail,body.flipMode #modeBar{display:none!important}
 <div id="setRow" title="A = scans from the a collection (standing, names ending a / aC); B = the b collection (seated, ending b / bC)">Set: <label><input type="radio" name="abset" value="all" checked> AB</label><label><input type="radio" name="abset" value="a"> A</label><label><input type="radio" name="abset" value="b"> B</label></div>
 <div id="fslots"></div><div id="fInfo">loading measurement table…</div></div>
 <div id="fCount" style="margin-top:10px;padding-top:8px;border-top:1px solid #2c3038;color:#cfd5e0"></div>
-</section>
-<section class="pnl" data-p="tapes">
 <div id="tapeBox" style="margin:6px 0;padding:6px 8px;border:1px solid #3a3f4a;border-radius:6px"><b style="font-size:12px">Tape measures</b>
 <div class="tslot" style="border-left:3px solid #f2c94c"><select id="tapeSel0" title="Tape 1 (yellow)"><option value="-1">— off —</option></select><div id="tapeInfo0" class="tinfo" style="color:#f2c94c"></div></div>
 <div class="tslot" style="border-left:3px solid #6fc8ff"><select id="tapeSel1" title="Tape 2 (blue)"><option value="-1">— off —</option></select><div id="tapeInfo1" class="tinfo" style="color:#6fc8ff"></div></div></div>
 </section>
 <section class="pnl" data-p="view">
-<div>Surface: <button id="bColor" class="on">Scan color</button><button id="bGray">Shaded</button><button id="bWire">Wire</button></div>
 <div>View: <button data-v="front">Front</button><button data-v="side">Side</button><button data-v="back">Back</button><button data-v="top">Top</button><button id="bSpin">Auto-rotate</button><button id="bFit">Fit all</button></div>
 <div>Tour: <button id="bTourSeq" title="Visit each body in turn, pausing 0.2 s in front of each">Each body</button><button id="bTourRnd" title="Visit randomly chosen bodies until stopped">Random</button><button id="bTourStop">Stop</button></div>
 <div>Fog: <button id="bFog">Off</button> <input type="range" id="fogAmt" min="0" max="100" value="55" style="width:90px;vertical-align:middle" title="Fog strength">  <span class="multi-only compare-also" hidden> <button id="bNames" class="on">Names</button></span></div>
@@ -1590,10 +1587,6 @@ addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||mode!=='single')re
   if(e.key==='ArrowDown'){e.preventDefault();load(cur+1);}if(e.key==='ArrowUp'){e.preventDefault();load(cur-1);}});
 
 // ---------- controls ----------
-function setMat(gray){useGray=gray;applyMaterials();
-  $('bColor').classList.toggle('on',!gray);$('bGray').classList.toggle('on',gray);}
-$('bColor').onclick=()=>setMat(false);$('bGray').onclick=()=>setMat(true);
-$('bWire').onclick=e=>{mColor.wireframe=mGray.wireframe=!mGray.wireframe;applyMaterials();e.target.classList.toggle('on');};
 $('bSpin').onclick=e=>{ctl.autoRotate=!ctl.autoRotate;e.target.classList.toggle('on');};
 $('bFold').onclick=e=>{const b=$('uiBody');b.hidden=!b.hidden;e.target.textContent=b.hidden?'+':'–';};
 $('bLm').onclick=e=>{lmVisible=!lmVisible;bodies.forEach(b=>b.lmGroup.visible=lmVisible);e.target.classList.toggle('on',lmVisible);$('tip').style.display='none';};
@@ -1608,7 +1601,7 @@ addEventListener('keydown',e=>{const t=e.target.tagName;
   const id={r:'bSpin',n:'bNames',l:'bLm'}[e.key.toLowerCase()];if(id){e.preventDefault();$(id).click();}});
 // hide / show the left control panel; the 3D view takes the full width while it is hidden
 // ---------- icon rail: one panel open at a time; clicking the open one again closes it ----------
-const PTITLE={scans:'Scans',filters:'Filters',tapes:'Tape measures',view:'View',lm:'Landmarks',layout:'Layout'};
+const PTITLE={scans:'Scans',filters:'Filters and tape measures',view:'View',lm:'Landmarks',layout:'Layout'};
 let openP=null;
 function openPanel(p){openP=p||null;
   document.querySelectorAll('#rail .rb[data-p]').forEach(b=>b.classList.toggle('on',b.dataset.p===openP));

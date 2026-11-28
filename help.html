@@ -76,9 +76,8 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <table>
 <tr><th>Rail button</th><th>Panel</th></tr>
 <tr><td><b>Scans</b></td><td>The title; <span class="btn">Add folder…</span> <span class="btn">Add files…</span> <span class="btn">Clear</span> <span class="btn">Load sample set</span>; <b>Show: All / PLY / GLB</b>; <span class="btn">Download 1st selected</span> and, in Single mode, <span class="btn">Repair</span>; the name filter box and the file list (section 2).</td></tr>
-<tr><td><b>Filters</b></td><td>Sex, Set and the three measurement filters, with the number of files listed (section 8).</td></tr>
-<tr><td><b>Tapes</b></td><td>The two tape measures (section 7a).</td></tr>
-<tr><td><b>View</b></td><td>Surface (Scan color, Shaded, Wire), Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6).</td></tr>
+<tr><td><b>Filters</b></td><td>Sex, Set and the three measurement filters, with the number of files listed (section 8); below them, the two tape measures (section 7a).</td></tr>
+<tr><td><b>View</b></td><td>Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6).</td></tr>
 <tr><td><b>Landmarks</b></td><td>Show, X-ray, Clear labels, ShowAll, the callout distance, the sphere size and the region colours (section 7).</td></tr>
 <tr><td><b>Layout</b></td><td>The settings for the current mode: in Multi, Wall/Cube/Line/Floor/Sorted, Cube outline, Sorted on, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are.</td></tr>
 <tr><td><b>Help</b></td><td>Opens this page.</td></tr>
@@ -202,7 +201,6 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 <p><kbd>W</kbd>/<kbd>S</kbd> forward and back · <kbd>A</kbd>/<kbd>D</kbd> left and right · <kbd>E</kbd>/<kbd>Q</kbd> up and down · hold <kbd>Shift</kbd> for 3× speed. The rotation point moves with you, so after flying somewhere the mouse rotates around your new position. Speed scales with the size of the scene.</p>
 <h3>View panel buttons</h3>
 <table>
-<tr><td><span class="btn">Scan color</span> <span class="btn">Shaded</span> <span class="btn">Wire</span></td><td>Show the scanner's own color, plain gray shading, or the triangle mesh.</td></tr>
 <tr><td><span class="btn">Front</span> <span class="btn">Side</span> <span class="btn">Back</span> <span class="btn">Top</span></td><td>Standard views, lined up with the direction the body faces.</td></tr>
 <tr><td><span class="btn">Auto-rotate</span></td><td>Slowly spin the view.</td></tr>
 <tr><td><span class="btn">Fit all</span></td><td>Reframe the camera on everything in the scene.</td></tr>
@@ -227,7 +225,7 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 
 <figure><img data-b64="help/5_showall.txt" alt="A standing scan in Single mode with ShowAll: every landmark labelled in two columns with callout lines" loading="lazy"><figcaption>Single mode with <a href="#showall">ShowAll</a> (csr0625aC): all 73 landmarks labelled in two columns beside the body, callout distance 25 cm, Landmarks panel open.</figcaption></figure>
 <h2 id="tape">7a. Tape measures and definitions</h2>
-<p>Pick up to two measurements from the two menus in the <b>Tapes</b> panel. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the <i>CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions</i> (Air Force Research Laboratory, 2002):</p>
+<p>Pick up to two measurements from the two <b>Tape measures</b> menus in the <b>Filters</b> panel, below the filters. Tape 1 is drawn in yellow and tape 2 in blue, both with inch marks, on every body in the scene, as described in the <i>CAESAR Final Report, Vol. II: Demographic and Measurement Descriptions</i> (Air Force Research Laboratory, 2002):</p>
 <ul>
 <li><b>Circumferences</b> wrap around the scan the way a tape does, bridging hollows (chest at the bust points, waist at the preferred-waist landmark, hip at the table's maximum-hip height, neck base, armscye, thigh, ankle, head, hand, vertical trunk).</li>
 <li><b>Surface lengths</b> run over the body between landmarks (arm lengths, total crotch length, waist front length).</li>
@@ -236,11 +234,11 @@ figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border:1px 
 </ul>
 <p>The readout and labels give the table value (measured by hand) and, where the scan allows, the length of the tape on the scan. They differ because the scan posture is not the measuring posture (for example, arm lengths were taken with the arm bent and the fist on the hip). Seated measures appear only on seated (b/c) scans and standing measures only on standing (a) scans. Weight, skinfolds and thumb-tip reach are not drawn.</p>
 <p>In Multi mode the tapes are drawn on every body, a few per frame, so they appear one after another in a large scene. Each tape has a label beside the body with the measure's name, the table value and the tape length on the scan. Labels are shown when there are up to 60 bodies <b>on screen</b> (bodies hidden by filters don't count), so filtering down to a few bodies always brings the labels back.</p>
-<figure><img data-b64="help/3_tapes_filters.txt" alt="Wall of six tallest scans with stature and waist tapes and labels; Tapes panel open on the left" loading="lazy"><figcaption>Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ in the Filters panel), with Stature (yellow) and Waist Circumference (blue) tapes and their labels; the Tapes panel is open.</figcaption></figure>
+<figure><img data-b64="help/3_tapes_filters.txt" alt="Wall of six tallest scans with stature and waist tapes and labels; Filters panel open on the left" loading="lazy"><figcaption>Wall layout filtered to the 6 tallest scans (Stature range 73.1–86″ in the Filters panel), with Stature (yellow) and Waist Circumference (blue) tapes and their labels; the Filters panel is open.</figcaption></figure>
 <p>A card at the bottom right shows the report's description, method, instrument, ISO 7250 reference and line drawing for the chosen measurement, with its page number. With two tapes on, tabs switch between them. Use <span class="btn">–</span> on the card to fold it.</p>
 
 <h2 id="filters">8. Measurement and sex filters</h2>
-<p>All the filters are in the <b>Filters</b> panel. The number of files listed shows at the bottom of the panel.</p>
+<p>All the filters are in the <b>Filters</b> panel. The number of files listed shows below them, above the tape measures.</p>
 <h3>Sex</h3>
 <p><b>All / Male / Female</b> radio buttons.</p>
 <h3>Set</h3>
