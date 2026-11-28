@@ -122,9 +122,9 @@ The 3D view fills most of the window. Around it are three things:
 | --- | --- |
 | **Scans** | The title; Add folder… Add files… Clear Load sample set; **Show: All / PLY / GLB**; Download 1st selected and, in Single mode, Repair; the name filter box and the file list (section 2). |
 | **Filters** | Sex, Set and the three measurement filters, with the number of files listed (section 8); below them, the two tape measures (section 7a). |
-| **View** | Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, Names, and a reminder of the flying keys (section 6). |
+| **View** | Front/Side/Back/Top, Auto-rotate, Fit all, Tour, Fog, and a reminder of the flying keys (section 6). |
 | **Landmarks** | Show, X-ray, Clear labels, ShowAll, the callout distance, the sphere size and the region colours (section 7). |
-| **Layout** | The settings for the current mode: in Multi, Wall/Cube/Line/Floor/Sorted, Cube outline, Sorted on, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are. |
+| **Layout** | The settings for the current mode, with the Names button (Multi and Compare): in Multi, Wall/Cube/Line/Floor/Sorted, Cube outline, Sorted on, Body limit, Add all shown and Clear scene (section 4); in Compare, Position, Separation and the A and B slots (section 5). In Single and Ranger it says where their controls are. |
 | **Help** | Opens this page. |
 
 ### 2. The file list
@@ -273,7 +273,7 @@ Two bodies, A and B, for side-by-side or overlaid comparison.
 | Auto-rotate | Slowly spin the view. |
 | Fit all | Reframe the camera on everything in the scene. |
 | Fog + slider | Fade farther bodies into the background (distance fog). The slider sets the strength; the fog follows the camera, so whatever is nearest stays clear. |
-| Names | Show or hide the file-name tags under the bodies (Multi and Compare). Key `N`. |
+| Names | In the **Layout** panel: show or hide the file-name tags under the bodies (Multi and Compare). Key `N`. |
 | Rail buttons · ✕ | Open a panel; click the open one again, or ✕, to close it so the 3D view fills the window beside the rail. |
 
 #### Single-key toggles
